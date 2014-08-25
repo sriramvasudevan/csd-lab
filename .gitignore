@@ -1,0 +1,14 @@
+Makefile
+build/
+dist/
+nbproject/
+*.out
+*.gz
+*.zip
+*.swp
+*.dep.inc
+*~
+*.class
+*.log
+*.aux
+*.pyc

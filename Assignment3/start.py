@@ -131,17 +131,17 @@ def simulate():
                 #Store to register. TODO: Other case.
                 if instr.dest[0] == 'R':
                     regdest = int(instr.dest[1:])
-
-                    reg1 = int(instr.src1[1:])
-                    if params.registers[reg1].is_busy():
-                        entry.operand1.set_tag(params.registers[reg1].get_tag())
-                    else:
-                        entry.operand1.set_value(params.registers[reg1].get_data())
-
                     if params.registers[regdest].is_busy():
                         entry.store_operand.set_tag(params.registers[regdest].get_tag())
                     else:
                         entry.store_operand.set_value(params.registers[regdest].get_data())
+
+                entry.store_operand.set_value(int(instr.dest))
+                reg1 = int(instr.src1[1:])
+                if params.registers[reg1].is_busy():
+                    entry.operand1.set_tag(params.registers[reg1].get_tag())
+                else:
+                    entry.operand1.set_value(params.registers[reg1].get_data())
 
                 params.rb.add_entry(ReorderBufferEntry(instr.index))
         

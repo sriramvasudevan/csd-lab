@@ -13,7 +13,7 @@ class MemoryAccessEntry:
         if(not self.entry.is_finished() or self.entry.is_complete):
             print "entry not finished or entry completed"
             sys.exit(1)
-        if instr_type[self.entry.id] == LOAD:
+        if instr_type[self.entry.id] == 'LOAD':
             if buffer_validity[0][self.address]:
                 print "buffer validity non-zero"
                 sys.exit(1)
@@ -21,9 +21,9 @@ class MemoryAccessEntry:
             self.update_regfile(self.id, self.entry.load_val);
             self.update_reservation_station(self.id, self.entry.load_val);
 
-        elif instr_type[self.entry.id] == STORE:
-            #This implies the current rb head is a STORE
-            if(not len(rb.entries)>0 or not instr_type[rb.entries[0].id]==STORE):
+        elif instr_type[self.entry.id] == 'STORE':
+            #This implies the current rb head is a 'STORE'
+            if(not len(rb.entries)>0 or not instr_type[rb.entries[0].id]=='STORE'):
                 print "rb entries zero or inst type not store"
                 sys.exit(1)
             #popleft function will take care of writing the store value in store buffer and popping it
@@ -46,6 +46,6 @@ class MemoryAccessEntry:
                     entry.operand1.set_value(result)
                 if(not entry.operand2.is_valid() and entry.operand2.tag_bit==entry_id):
                     entry.operand2.set_value(result)
-                if(instr_type[entry.id]==STORE and entry.store_operand.is_valid() and entry.store_operand.tag_bit==entry_id):
+                if(instr_type[entry.id]=='STORE' and entry.store_operand.is_valid() and entry.store_operand.tag_bit==entry_id):
                     entry.store_opeand.set_value(result)
 

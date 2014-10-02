@@ -10,7 +10,7 @@ class RegFileEntry:
         return self.data.tag_bit if self.is_busy() else 0
 
     def get_data(self):
-        return -inf if self.is_busy() else self.data.value
+        return float("-inf") if self.is_busy() else self.data.value
 
     def set_tag(self, tag):
         self.busy_bit = True

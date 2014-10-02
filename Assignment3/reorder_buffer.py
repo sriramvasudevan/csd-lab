@@ -21,15 +21,15 @@ class ReorderBuffer:
     def popleft(self):
         if len(self.entries)==0 or not self.entries[0].is_finished():
             return False
-        if instr_type[self.entries[0].id]==STORE:
+        if instr_type[self.entries[0].id]=='STORE':
             top_entry = self.entries[0]
             if top_entry.store_memory_access:
                 return False
-            print "Trying to pop STORE inst.", top_entry.id
+            print "Trying to pop 'STORE' inst.", top_entry.id
             if not top_entry.is_finished():
                 print "top entry not finished"
                 sys.exit(1)
-            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[0][top_entry.store_addreses]):
+            if (self.buff_size()<MAX_'STORE'_BUFF or buffer_validity[0][top_entry.store_addreses]):
                 buffer_validity[0][top_entry.store_addreses] = True
                 buffer_validity[1][top_entry.store_addreses] = False
                 buff[0][top_entry.store_addreses] = top_entry.store_val
@@ -47,7 +47,7 @@ class ReorderBuffer:
                 memory_access_queue.append()
                 top_entry.store_memory_access = True
                 return False
-        elif instr_type[top_entry.id] == LOAD:
+        elif instr_type[top_entry.id] == 'LOAD':
             if top_entry.is_complete():
                 return False
             else:
@@ -74,8 +74,8 @@ class ReorderBufferEntry:
         self.finish_bit = False;
         self.complete_bit = False;
         self.id = entry_id;
-        self.load_val = -inf;
-        self.store_val = +inf;
+        self.load_val = float("-inf");
+        self.store_val = float("+inf");
         self.store_address = -1;
         self.store_memory_access = False;
 

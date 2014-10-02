@@ -2,6 +2,13 @@ def ReorderBuffer:
     def __init__(self):
         self.entries = None
 
+    def set_issue(self, entry_id):
+        for entry in self.entries:
+            if entry.id == entry_id:
+                entry.issue_bit = True
+                return True
+        return False
+
     def add_entry(self, entry):
         if(len(self.entries) >= MAX_RB_SIZE):
             return False
@@ -21,40 +28,67 @@ def ReorderBuffer:
                 buffer_validity[mp(top_entry.store_addreses,1)] = True
                 buffer_validity[mp(top_entry.store_addreses,2)] = False
                 buff[mp(top_entry.store_addreses,1)] = top_entry.store_val
-        for entry in self.entries:
-            if (entry.id == entry_id and entry.is_valid()):
-                    del entry
-                    return True
+                top_entry.complete_bit = True
+                store_counter -= 1
+                print "Store count", store_counter
+                self.entries.pop()
+                return True
+            else:
+                print "Couldn't pop the Store Inst.", top_entry.id
+                print "Curr size of mem access queue", len(memory_access_queue)
+                memory_access_queue.append()
+                top_entry.store_memory_access = True
+                return False
+        elif top_entry.is_load():
+            if top_entry.is_complete():
+                return False
+            else:
+                self.entries.pop()
+                return True
+        else:
+            if !self.entries[-1].is_complete():
+                return False
+            self.entries.pop()
+            return True
+
+    def buff_size(self):
+        size = 0
+        for something in buffer_validity:
+            if something.ff.ss == 1 and something.ss:
+                size += 1
+        return size
+
+
+def ReorderBufferEntry:
+    def __init__(self, entry_id):
+        self.busy_bit = True;
+        self.issue_bit = False;
+        self.finish_bit = False;
+        self.complete_bit = False;
+        self.id = entry_id;
+        self.load_val = -inf;
+        self.store_val = +inf;
+        self.store_address = -1;
+        self.store_memory_access = False;
+
+    def is_busy(self):
+        return self.busy_bit
+
+    def is_issued(self):
+        return self.issue_bit
+
+    def is_finished(self):
+        return self.finish_bit
+
+    def is_complete(self):
+        return self.complete_bit
+
+    def set_load_val(self, val):
+        if (!self.is_complete() and self.is_finished()):
+            self.load_val = val
+            self.complete_bit = True
+            return True
         return False
 
-    def get_alu_entries(self):
-        alu_entries = []
-        for entry in self.entries:
-            if (!entry.is_load() and !entry.is_store() and entry.is_valid() and !entry.is_issued()):
-                alu_entries.append(entry)
-                if(len(alu_entries)==NUM_ALU):
-                    return alu_entries
-        return alu_entries
 
-    def get_load_entries(self):
-        for entry in self.entries:
-            if(entry.is_load() and entry.is_valid() and !entry.is_issued()):
-                return entry
-        return None
-
-    def get_store_entries(self):
-        for entry in self.entries:
-            if(entry.is_store() and entry.is_valid() and !entry.is_issued()):
-                return entry
-        return None
-
-def ReservationStationEntry:
-    def __init__(self, entry_id):
-        this.id = entry_id
-        this.operand1 = this.operand2 = this.store_operand = None
-        this.issued = False
-
-    def is_valid(self):
-        if self.is_store()
-        return (self.operand1.is_valid() and self.operand2.is_valid() and (True if !entry.is_store() else this.store_operand.is_valid()))
 

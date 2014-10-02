@@ -96,7 +96,7 @@ class FunctionalUnit:
                 if not entry.operand2.is_valid() and entry.operand2.tag_bit == i_id:
                     entry.operand2.set_value(result)
 
-                if params.instr_type[entry.index] == 'STORE' and not entry.store_operand.is_valid() and entry.store_operand.tag_bit == id:
+                if params.instr_type[entry.index] == 'STORE' and not entry.store_operand.is_valid() and entry.store_operand.tag_bit == i_id:
                     entry.store_operand.set_value(result)
                     
     def update_reorder_buffer(self, i_id, itype=None, result=0):

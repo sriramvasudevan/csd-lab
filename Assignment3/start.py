@@ -145,6 +145,9 @@ def simulate():
                     entry.operand1.set_value(params.registers[reg1].get_data())
 
                 params.rb.add_entry(ReorderBufferEntry(instr.index))
+
+            elif instr.opcode == 'LOAD':
+                params.registers[int(instr.dest[1:])].set_tag(instr.index)
         
         entries = params.rs.get_alu_entries()
         j = 0
@@ -217,6 +220,10 @@ def simulate():
         for reg in params.registers:
             print i, reg.data.value, reg.busy_bit, reg.get_tag()
             i += 1
+
+        print 'Reservation station entries:'
+        for entry in params.rs.entries:
+            print entry.index
 
 
         print 'End of cycle ', cycle_no

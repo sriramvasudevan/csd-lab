@@ -1,5 +1,3 @@
-import sys
-
 class MemoryAccessEntry:
     def __init__(self, entry_id, rb_entry, address):
         self.id = entry_id
@@ -10,28 +8,22 @@ class MemoryAccessEntry:
     def popleft(self):
         if len(memory_access_queue)==0:
             return False
-        if(not self.entry.is_finished() or self.entry.is_complete):
-            print "entry not finished or entry completed"
-            sys.exit(1)
+        assert (self.entry.is_finished() and not self.entry.is_complete)
         if instr_type[self.entry.id] == 'LOAD':
-            if buffer_validity[0][self.address]:
-                print "buffer validity non-zero"
-                sys.exit(1)
-            self.entry.set_load_val(buff[1][self.address]);
-            self.update_regfile(self.id, self.entry.load_val);
-            self.update_reservation_station(self.id, self.entry.load_val);
+            assert not buffer_validity[0][self.address]
+            self.entry.set_load_val(buff[1][self.address])
+            self.update_regfile(self.id, self.entry.load_val)
+            self.update_reservation_station(self.id, self.entry.load_val)
 
         elif instr_type[self.entry.id] == 'STORE':
             #This implies the current rb head is a 'STORE'
-            if(not len(rb.entries)>0 or not instr_type[rb.entries[0].id]=='STORE'):
-                print "rb entries zero or inst type not store"
-                sys.exit(1)
+            assert (len(rb.entries)>0 and instr_type[rb.entries[0].id]=='STORE')
             #popleft function will take care of writing the store value in store buffer and popping it
-            self.entry.store_memory_access = False;
-            rb.popleft();
+            self.entry.store_memory_access = False
+            rb.popleft()
   
-        memory_access_queue.popleft();
-        return True;
+        memory_access_queue.popleft()
+        return True
 
 
     def update_regfile(self, entry_id, result):

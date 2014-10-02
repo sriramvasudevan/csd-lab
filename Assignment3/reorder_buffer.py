@@ -25,9 +25,7 @@ class ReorderBuffer:
             if top_entry.store_memory_access:
                 return False
             print "Trying to pop 'STORE' inst.", top_entry.id
-            if not top_entry.is_finished():
-                print "top entry not finished"
-                sys.exit(1)
+            assert top_entry.is_finished()
             if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[0][top_entry.store_addreses]):
                 buffer_validity[0][top_entry.store_addreses] = True
                 buffer_validity[1][top_entry.store_addreses] = False
@@ -35,9 +33,7 @@ class ReorderBuffer:
                 top_entry.complete_bit = True
                 store_counter -= 1
                 print "Store count", store_counter
-                if store_counter<0:
-                    print "store counter negative"
-                    sys.exit(1)
+                assert store_counter>=0
                 self.entries.popleft()
                 return True
             else:
@@ -68,15 +64,15 @@ class ReorderBuffer:
 
 class ReorderBufferEntry:
     def __init__(self, entry_id):
-        self.busy_bit = True;
-        self.issue_bit = False;
-        self.finish_bit = False;
-        self.complete_bit = False;
-        self.id = entry_id;
-        self.load_val = float("-inf");
-        self.store_val = float("+inf");
-        self.store_address = -1;
-        self.store_memory_access = False;
+        self.busy_bit = True
+        self.issue_bit = False
+        self.finish_bit = False
+        self.complete_bit = False
+        self.id = entry_id
+        self.load_val = float("-inf")
+        self.store_val = float("+inf")
+        self.store_address = -1
+        self.store_memory_access = False
 
     def is_busy(self):
         return self.busy_bit

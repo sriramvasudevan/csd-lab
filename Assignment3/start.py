@@ -136,7 +136,7 @@ def simulate():
                 else:
                     entry.operand1.set_value(int(instr.src1))
 
-                 if reg2:
+                if reg2:
                     if registers[reg2].is_busy():
                         entry.operand2.set_tag(registers[reg2].get_tag())
                     else:

@@ -15,15 +15,17 @@ class ReorderBuffer:
         self.entries.append(entry)
         return True
 
-    def pop_entry(self, entry_id):
-        if len(self.entries)==0 or not self.entries[-1].is_finished():
+    def popleft(self):
+        if len(self.entries)==0 or not self.entries[0].is_finished():
             return False
-        if instr.type[self.entries[-1].id]==STORE:
-            top_entry = self.entries[-1]
+        if instr.type[self.entries[0].id]==STORE:
+            top_entry = self.entries[0]
             if top_entry.store_memory_access:
                 return False
             print "Trying to pop STORE inst.", top_entry.id
-            print top_entry.is_finished()
+            if not top_entry.is_finished():
+                print "top entry not finished"
+                sys.exit(1)
             if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[make_pair(top_entry.store_addreses,1)]):
                 buffer_validity[make_pair(top_entry.store_addreses,1)] = True
                 buffer_validity[make_pair(top_entry.store_addreses,2)] = False
@@ -31,6 +33,9 @@ class ReorderBuffer:
                 top_entry.complete_bit = True
                 store_counter -= 1
                 print "Store count", store_counter
+                if store_counter<0:
+                    print "store counter negative"
+                    sys.exit(1)
                 self.entries.popleft()
                 return True
             else:
@@ -46,7 +51,7 @@ class ReorderBuffer:
                 self.entries.popleft()
                 return True
         else:
-            if not self.entries[-1].is_complete():
+            if not self.entries[0].is_complete():
                 return False
             self.entries.popleft()
             return True

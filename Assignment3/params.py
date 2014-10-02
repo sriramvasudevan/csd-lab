@@ -8,6 +8,10 @@ MAX_RESERVATION_STATION=128
 MAX_REGISTERS=8
 MAX_INSTR=1
 
+#enum
+LOAD=-1
+STORE=1
+
 global_ins_counter = 0
 store_counter = 0
 global_time = 0

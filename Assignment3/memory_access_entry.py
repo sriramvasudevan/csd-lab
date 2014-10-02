@@ -11,7 +11,7 @@ def MemoryAccessEntry:
         pass
 
     def update_regfile(self, entry_id, result):
-        registers = [x.set_data(result) for x in registers if x.is_busy and x.data.tag_bit==entry_id]
+        registers = [x.set_data(result) for x in registers if x.is_busy() and x.data.tag_bit==entry_id]
 
     def update_reservation_station(self, entry_id, result):
         for entry in rs.entries:

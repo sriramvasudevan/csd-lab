@@ -31,7 +31,7 @@ def ReorderBuffer:
                 top_entry.complete_bit = True
                 store_counter -= 1
                 print "Store count", store_counter
-                self.entries.pop()
+                self.entries.popleft()
                 return True
             else:
                 print "Couldn't pop the Store Inst.", top_entry.id
@@ -43,12 +43,12 @@ def ReorderBuffer:
             if top_entry.is_complete():
                 return False
             else:
-                self.entries.pop()
+                self.entries.popleft()
                 return True
         else:
             if !self.entries[-1].is_complete():
                 return False
-            self.entries.pop()
+            self.entries.popleft()
             return True
 
     def buff_size(self):

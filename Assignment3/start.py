@@ -16,7 +16,7 @@ registers = []
 rob = ReorderBuffer()
 
 #Our reservation station
-rs = ReservationStation
+rs = ReservationStation()
 
 #A list of instructions
 all_instructions = []

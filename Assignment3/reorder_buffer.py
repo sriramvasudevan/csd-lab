@@ -44,7 +44,7 @@ class ReorderBuffer:
             else:
                 print "Couldn't pop the Store Inst.", top_entry.id
                 print "Curr size of mem access queue", len(memory_access_queue)
-                memory_access_queue.append()
+                memory_access_queue.append(MemoryAccessEntry(top_entry.id, top_entry, top_entry.store_address))
                 top_entry.store_memory_access = True
                 return False
         elif instr_type[top_entry.id] == 'LOAD':

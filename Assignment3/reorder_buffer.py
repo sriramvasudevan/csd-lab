@@ -1,4 +1,3 @@
-# assuming buffer_validity = [{},{}]
 from collections import deque
 
 class ReorderBuffer:
@@ -29,7 +28,7 @@ class ReorderBuffer:
             if not top_entry.is_finished():
                 print "top entry not finished"
                 sys.exit(1)
-            if (self.buff_size()<MAX_'STORE'_BUFF or buffer_validity[0][top_entry.store_addreses]):
+            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[0][top_entry.store_addreses]):
                 buffer_validity[0][top_entry.store_addreses] = True
                 buffer_validity[1][top_entry.store_addreses] = False
                 buff[0][top_entry.store_addreses] = top_entry.store_val
@@ -59,7 +58,7 @@ class ReorderBuffer:
             self.entries.popleft()
             return True
 
-    def buff_size(self):
+    def buff_size(self): #TODO
         size = 0
         for something in buffer_validity:
             if something.first.second == 1 and something.second:
@@ -97,6 +96,4 @@ class ReorderBufferEntry:
             self.complete_bit = True
             return True
         return False
-
-
 

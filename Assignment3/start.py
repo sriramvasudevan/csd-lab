@@ -13,7 +13,7 @@ latency = {}
 registers = []
 
 #Our reorder buffer
-rob = ReorderBuffer()
+rb = ReorderBuffer()
 
 #Our reservation station
 rs = ReservationStation()
@@ -28,14 +28,28 @@ instr_type = {}
 
 #A map from integer tuple (a,b) to a double, and a bool for validity
 buffer_map = {}
-buffer_validity = {}
+buffer_validity = [{}, {}]
 
-#TODO
-def copy_buffer_mem():
+def copy_buffer_mem(): #TODO
     address = []
+    for something in buffer_validity:
+        if something.first.second == 2:
+            continue
+        if something.ss:
+            address.append(somthing.first.first)
+            if(len(address)==bandwidth):
+                break
+    for a in address:
+        buff[1][a] = buff[0][a]
+        buffer_validity[0][a] = False
+        buffer_validity[1][a] = True
 
-def store_buffer_empty():
-    pass
+def store_buffer_empty(): #TODO
+    for something in buffer_validity:
+        if something.first.second==1 and something.second:
+            return False
+    return True
+
 def populate_instructions():
 
     global global_ins_counter
@@ -80,7 +94,7 @@ def simulate():
             iq.append(all_instructions[curr_index])
             curr_index += 1
 
-        if len(iq) == 0 and len(rob.entries) == 0 and curr_index >= len(all_instructions) and len(memory_access_queue) == 0:
+        if len(iq) == 0 and len(rb.entries) == 0 and curr_index >= len(all_instructions) and len(memory_access_queue) == 0:
             break
 
         #Index into instruction queue
@@ -91,7 +105,7 @@ def simulate():
             if store_counter != 0 and instr.opcode == 'LOAD':
                 break
 
-            if len(rs.entries)>= MAX_RESERVATION_STATION or len(rob.entries) >= MAX_REORDER_BUFFER:
+            if len(rs.entries)>= MAX_RESERVATION_STATION or len(rb.entries) >= MAX_REORDER_BUFFER:
                 break
             print 'Next instruction: ID ' + str(instr.index)
 
@@ -133,7 +147,7 @@ def simulate():
                 
                 registers[regdest].set_tag(instr.index)
 
-                rob.add_entry(ReorderBufferEntry(instr.index))
+                rb.add_entry(ReorderBufferEntry(instr.index))
 
             elif instr.opcode == 'STORE':
                 print 'Store instruction: ID ' + instr.index
@@ -154,7 +168,7 @@ def simulate():
                     else:
                         entry.store_operand.set_value(registers[regdest].get_data())
 
-                rob.add_entry(ReorderBufferEntry(instr.index))
+                rb.add_entry(ReorderBufferEntry(instr.index))
         
         entries = rs.get_alu_entries()
         j = 0
@@ -197,7 +211,7 @@ def simulate():
             else:
                 store_fu.increment_time()
 
-        while rob.popleft():
+        while rb.popleft():
             pass
 
         if len(memory_access_queue) > 0:
@@ -207,10 +221,8 @@ def simulate():
                     print 'Waiting time for store in queue ' + str(top_elem.time_in_mem)
                     top_elem.time_in_mem += 1
                 else:
-                    #TODO
                     copy_buffer_mem()
                     print 'Flushing store buffer.'
-                    #TODO
                     if store_buffer_empty():
                         top_elem.popleft()
                     else:
@@ -221,7 +233,7 @@ def simulate():
                 else:
                     top_elem.popleft()
 
-        while rob.popleft():
+        while rb.popleft():
             pass
 
         print 'RX Value Busy Tag'
@@ -245,10 +257,10 @@ if __name__ == "__main__":
     buffer_map[(8,1)] = 4
     buffer_map[(12,1)] = 7
 
-    buffer_validity[(0,1)] = True
-    buffer_validity[(4,1)] = True
-    buffer_validity[(8,1)] = True
-    buffer_validity[(12,1)] = True
+    buffer_validity[0][0] = True
+    buffer_validity[0][4] = True
+    buffer_validity[0][8] = True
+    buffer_validity[0][12] = True
 
     populate_instructions()
     simulate()

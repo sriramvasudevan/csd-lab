@@ -15,7 +15,7 @@ def copy_buffer_mem():
     for add in params.buffer_validity[0]:
         if params.buffer_validity[0][add]:
             address.append(add)
-            if(len(address)==bandwidth):
+            if(len(address)==params.latency['BANDWIDTH']):
                 break
     for a in address:
         params.buff[1][a] = params.buff[0][a]

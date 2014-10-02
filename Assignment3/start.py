@@ -136,7 +136,8 @@ def simulate():
                     else:
                         entry.store_operand.set_value(params.registers[regdest].get_data())
 
-                entry.store_operand.set_value(int(instr.dest))
+                else:
+                    entry.store_operand.set_value(int(instr.dest))
                 reg1 = int(instr.src1[1:])
                 if params.registers[reg1].is_busy():
                     entry.operand1.set_tag(params.registers[reg1].get_tag())

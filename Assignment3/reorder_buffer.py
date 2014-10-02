@@ -24,10 +24,10 @@ def ReorderBuffer:
                 return False
             print "Trying to pop STORE inst.", top_entry.id
             print top_entry.is_finished()
-            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[mp(top_entry.store_addreses,1)]):
-                buffer_validity[mp(top_entry.store_addreses,1)] = True
-                buffer_validity[mp(top_entry.store_addreses,2)] = False
-                buff[mp(top_entry.store_addreses,1)] = top_entry.store_val
+            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[make_pair(top_entry.store_addreses,1)]):
+                buffer_validity[make_pair(top_entry.store_addreses,1)] = True
+                buffer_validity[make_pair(top_entry.store_addreses,2)] = False
+                buff[make_pair(top_entry.store_addreses,1)] = top_entry.store_val
                 top_entry.complete_bit = True
                 store_counter -= 1
                 print "Store count", store_counter
@@ -54,7 +54,7 @@ def ReorderBuffer:
     def buff_size(self):
         size = 0
         for something in buffer_validity:
-            if something.ff.ss == 1 and something.ss:
+            if something.first.second == 1 and something.second:
                 size += 1
         return size
 

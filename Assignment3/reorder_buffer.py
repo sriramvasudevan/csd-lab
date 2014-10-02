@@ -1,4 +1,4 @@
-def ReorderBuffer:
+class ReorderBuffer:
     def __init__(self):
         self.entries = None
 
@@ -12,13 +12,13 @@ def ReorderBuffer:
     def add_entry(self, entry):
         if(len(self.entries) >= MAX_RB_SIZE):
             return False
-        self.entries.append(entry) #TODO: Check this
+        self.entries.append(entry)
         return True
 
     def pop_entry(self, entry_id):
-        if len(self.entries)==0 or !self.entries[-1].is_finished():
+        if len(self.entries)==0 or not self.entries[-1].is_finished():
             return False
-        if self.entries[-1].is_store():
+        if instr.type[self.entries[-1].id]==STORE:
             top_entry = self.entries[-1]
             if top_entry.store_memory_access:
                 return False
@@ -39,14 +39,14 @@ def ReorderBuffer:
                 memory_access_queue.append()
                 top_entry.store_memory_access = True
                 return False
-        elif top_entry.is_load():
+        elif instr_type[top_entry.id] == LOAD:
             if top_entry.is_complete():
                 return False
             else:
                 self.entries.popleft()
                 return True
         else:
-            if !self.entries[-1].is_complete():
+            if not self.entries[-1].is_complete():
                 return False
             self.entries.popleft()
             return True
@@ -59,7 +59,7 @@ def ReorderBuffer:
         return size
 
 
-def ReorderBufferEntry:
+class ReorderBufferEntry:
     def __init__(self, entry_id):
         self.busy_bit = True;
         self.issue_bit = False;
@@ -84,7 +84,7 @@ def ReorderBufferEntry:
         return self.complete_bit
 
     def set_load_val(self, val):
-        if (!self.is_complete() and self.is_finished()):
+        if (not self.is_complete() and self.is_finished()):
             self.load_val = val
             self.complete_bit = True
             return True

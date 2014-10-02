@@ -1,4 +1,6 @@
-def MemoryAccessEntry:
+import sys
+
+class MemoryAccessEntry:
     def __init__(self, entry_id, rb_entry, address):
         self.id = entry_id
         self.time_in_mem = 0
@@ -8,18 +10,21 @@ def MemoryAccessEntry:
     def pop(self):
         if len(memory_access_queue)==0:
             return False
-        pass
+        if(not self.entry.is_finished() or self.entry.is_complete):
+            sys.exit(1)
 
     def update_regfile(self, entry_id, result):
-        registers = [x.set_data(result) for x in registers if x.is_busy() and x.data.tag_bit==entry_id]
+        for reg in registers:
+            if reg.is_busy() and reg.data.tag_bit==entry_id:
+                reg.set_data(result)
 
     def update_reservation_station(self, entry_id, result):
         for entry in rs.entries:
-            if entry.get_entry_valid():
-                if(!entry.operand1.is_valid() and entry.operand1.tag_bit==entry_id):
+            if entry.is_valid():
+                if(not entry.operand1.is_valid() and entry.operand1.tag_bit==entry_id):
                     entry.operand1.set_value(result)
-                if(!entry.operand2.is_valid() and entry.operand2.tag_bit==entry_id):
+                if(not entry.operand2.is_valid() and entry.operand2.tag_bit==entry_id):
                     entry.operand2.set_value(result)
-                if(entry.is_store() and entry.store_operand.is_valid() and entry.store_operand.tag_bit==entry_id):
+                if(instr.type[entry.id]==STORE and entry.store_operand.is_valid() and entry.store_operand.tag_bit==entry_id):
                     entry.store_opeand.set_value(result)
 

@@ -1,4 +1,4 @@
-def RegFileEntry:
+class RegFileEntry:
     def __init__(self, val):
         self.busy_bit = False
         self.data = OperandTag(0, val)
@@ -7,7 +7,7 @@ def RegFileEntry:
         return self.busy_bit
 
     def get_tag(self):
-        return self.data.tag_bit if self.is_busy else 0
+        return self.data.tag_bit if self.is_busy() else 0
 
     def get_data(self):
         return -inf if self.is_busy() else self.data.value
@@ -20,7 +20,7 @@ def RegFileEntry:
         self.busy_bit = False
         return self.data.set_value(val)
 
-def OperandTag:
+class OperandTag:
     def __init__(self, tag, val):
         self.tag_bit = tag
         self.value = val

@@ -57,8 +57,8 @@ class ReorderBuffer:
 
     def buff_size(self): #TODO
         size = 0
-        for something in params.buffer_validity:
-            if something.first.second == 1 and something.second:
+        for add in buffer_validity[0]:
+            if buffer_validity[0][add]:
                 size += 1
         return size
 

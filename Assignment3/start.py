@@ -10,13 +10,11 @@ from collections import deque
 load_fu = FunctionalUnit()
 store_fu = FunctionalUnit()
 
-def copy_buffer_mem(): #TODO
+def copy_buffer_mem():
     address = []
-    for something in buffer_validity:
-        if something.first.second == 2:
-            continue
-        if something.ss:
-            address.append(somthing.first.first)
+    for add in buffer_validity[0]:
+        if buffer_validity[0][add]:
+            address.append(add)
             if(len(address)==bandwidth):
                 break
     for a in address:
@@ -24,9 +22,9 @@ def copy_buffer_mem(): #TODO
         buffer_validity[0][a] = False
         buffer_validity[1][a] = True
 
-def store_buffer_empty(): #TODO
-    for something in buffer_validity:
-        if something.first.second==1 and something.second:
+def store_buffer_empty():
+    for add in buffer_validity[0]:
+        if buffer_validity[0][add]:
             return False
     return True
 

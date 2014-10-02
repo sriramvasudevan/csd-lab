@@ -20,11 +20,14 @@ class FunctionalUnit:
         params.rb.set_issue(self.entry.index)
         return True
 
-    def execute_load_instruction(self ):
+    def execute_load_instruction(self):
         if not self.is_busy() and not self.entry.is_valid():
             return False
 
-        result = self.entry.operand1.value
+        if self.entry.operand1.value in params.memoryvalues:
+            result = params.memoryvalues[self.entry.operand1.value]
+        else:
+            result = 0
         self.time_in_fu = 1
 
         self.update_register_file(self.entry.index,result)
@@ -38,9 +41,10 @@ class FunctionalUnit:
         if not self.is_busy() and not self.entry.is_valid():
             return False
 
-        result = self.entry.operand1.value + self.entry.operand2.value
+        result = self.entry.operand1.value
         self.time_in_fu = 1
 
+        params.memoryvalues[self.entry.store_operand.value] = result
         self.update_reorder_buffer(self.entry.index,params.instr_type[self.entry.index],result)
         params.rs.remove_entry(self.entry.index)
 
@@ -121,6 +125,7 @@ class FunctionalUnit:
                 if entry.index == i_id:
                     entry.store_val = self.entry.store_operand.value
                     entry.store_address = address
+                    params.memoryvalues[entry.store_address] = entry.store_val
                     entry.finish_bit = True
                     return
         else: # type==None

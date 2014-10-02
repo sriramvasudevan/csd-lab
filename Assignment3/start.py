@@ -128,7 +128,6 @@ def simulate():
                 print 'Store instruction: ID ', instr.index
 
                 params.store_counter += 1
-                #Store to register. TODO: Other case.
                 if instr.dest[0] == 'R':
                     regdest = int(instr.dest[1:])
                     if params.registers[regdest].is_busy():

@@ -1,3 +1,4 @@
+# assuming buffer_validity = [{},{}]
 class ReorderBuffer:
     def __init__(self):
         self.entries = None
@@ -26,10 +27,10 @@ class ReorderBuffer:
             if not top_entry.is_finished():
                 print "top entry not finished"
                 sys.exit(1)
-            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[make_pair(top_entry.store_addreses,1)]):
-                buffer_validity[make_pair(top_entry.store_addreses,1)] = True
-                buffer_validity[make_pair(top_entry.store_addreses,2)] = False
-                buff[make_pair(top_entry.store_addreses,1)] = top_entry.store_val
+            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[0][top_entry.store_addreses]):
+                buffer_validity[0][top_entry.store_addreses] = True
+                buffer_validity[1][top_entry.store_addreses] = False
+                buff[0][top_entry.store_addreses] = top_entry.store_val
                 top_entry.complete_bit = True
                 store_counter -= 1
                 print "Store count", store_counter

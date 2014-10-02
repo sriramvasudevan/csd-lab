@@ -14,10 +14,10 @@ class MemoryAccessEntry:
             print "entry not finished or entry completed"
             sys.exit(1)
         if instr_type[self.entry.id] == LOAD:
-            if buffer_validity[mp(self.address, 1)]:
+            if buffer_validity[0][self.address]:
                 print "buffer validity non-zero"
                 sys.exit(1)
-            self.entry.set_load_val(buffer[mp(self.address, 2)]);
+            self.entry.set_load_val(buff[1][self.address]);
             self.update_regfile(self.id, self.entry.load_val);
             self.update_reservation_station(self.id, self.entry.load_val);
 

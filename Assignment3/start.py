@@ -91,7 +91,7 @@ def simulate():
         while len(iq) < MAX_INSTR and curr_index < len(all_instructions):
             if all_instructions[curr_index].opcode=='LOAD' and store_counter != 0:
                 break
-            next_instr.append(all_instructions[curr_index])
+            iq.append(all_instructions[curr_index])
             curr_index += 1
 
         if len(iq) == 0 and len(rb.entries) == 0 and curr_index >= len(all_instructions) and len(memory_access_queue) == 0:
@@ -176,16 +176,16 @@ def simulate():
             if j >= len(entries):
                 break
             if fu[i].set_instruction(entries[j]):
-                print 'Setting alu ' + str(i) + ' the instruction ' + entries[j].index
+                print 'Setting alu ' + str(i) + ' the instruction ' + entries[j].id
                 j += 1
         entry = rs.get_load_entries()
         if entry:
             if load_fu.set_instruction(entry):
-                print 'Setting load fu to ' + entry.index
+                print 'Setting load fu to ' + entry.id
         entry = rs.get_store_entries()
         if entry:
             if store_fu.set_instruction(entry):
-                print 'Setting store fu to ' + entry.index
+                print 'Setting store fu to ' + entry.id
 
         for i in range(NUM_ALU):
             print 'FU ' + str(i)

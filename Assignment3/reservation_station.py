@@ -38,9 +38,9 @@ class ReservationStation:
 
 class ReservationStationEntry:
     def __init__(self, entry_id):
-        this.id = entry_id
-        this.operand1 = this.operand2 = this.store_operand = None
-        this.issued = False
+        self.id = entry_id
+        self.operand1 = self.operand2 = self.store_operand = None
+        self.issued = False
 
     def is_valid(self):
         return (self.operand1.is_valid() and self.operand2.is_valid() and (True if not instr_type[self.id]=='STORE' else this.store_operand.is_valid()))

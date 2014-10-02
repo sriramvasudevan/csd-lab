@@ -46,4 +46,4 @@ class ReservationStationEntry:
         self.issued = False
 
     def is_valid(self):
-        return (self.operand1.is_valid() and self.operand2.is_valid() and (True if not params.instr_type[self.index]=='STORE' else this.store_operand.is_valid()))
+        return (self.operand1.is_valid() and self.operand2.is_valid() and (True if not params.instr_type[self.index]=='STORE' else self.store_operand.is_valid()))

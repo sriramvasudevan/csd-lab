@@ -30,7 +30,7 @@ class FunctionalUnit:
         self.update_reorder_buffer(self.entry.index,params.instr_type[self.entry.index],result)
         params.rs.remove_entry(self.entry.index)
 
-        return remove_instruction()
+        return self.remove_instruction()
 
     def execute_store_instruction(self ):
         if not self.is_busy() and not self.entry.is_valid():
@@ -42,7 +42,7 @@ class FunctionalUnit:
         self.update_reorder_buffer(self.entry.index,params.instr_type[self.entry.index],result)
         params.rs.remove_entry(self.entry.index)
 
-        return remove_instruction()
+        return self.remove_instruction()
 
     def execute_instruction(self ):
         if not self.is_busy() and not self.entry.is_valid():
@@ -99,12 +99,12 @@ class FunctionalUnit:
                 if params.instr_type[entry.index] == 'STORE' and not entry.store_operand.is_valid() and entry.store_operand.tag_bit == id:
                     entry.store_operand.set_value(result)
                     
-    def update_reorder_buffer(self, i_id,itype,result):
+    def update_reorder_buffer(self, i_id, itype=None, result=0):
         address = int(result)
         if itype == 'LOAD':
             for entry in params.rb.entries:
                 if entry.index == i_id:
-                    if buffer_validity[0][address]:
+                    if params.buffer_validity[0][address]:
                         entry.load_val = buff[0][address]
                         self.update_register_file(i_id,entry.load_val)
                         self.update_reservation_station(i_id,entry.load_val)
@@ -114,21 +114,19 @@ class FunctionalUnit:
                         entry.finish_bit = True
                         memory_access_queue.append(MemoryAccessEntry(i_id,entry,address))
                     return
-        elif type == 'STORE':
+        elif itype == 'STORE':
             for entry in params.rb.entries:
                 if entry.index == i_id:
-                    entry.store_val = entry.store_operand.value
+                    entry.store_val = self.entry.store_operand.value
                     entry.store_address = address
                     entry.finish_bit = True
                     return
-
-
-    def update_reorder_buffer(self, i_id):
-        for entry in params.rb.entries:
-            if entry.is_busy() and entry.is_issued() and entry.index == i_id:
-                entry.finish_bit = True
-                entry.complete_bit = True
-                return
+        else: # type==None
+            for entry in params.rb.entries:
+                if entry.is_busy() and entry.is_issued() and entry.index == i_id:
+                    entry.finish_bit = True
+                    entry.complete_bit = True
+                    return
 
     def increment_time(self):
         if self.is_busy():

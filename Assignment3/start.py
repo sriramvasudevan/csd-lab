@@ -47,7 +47,7 @@ def populate_instructions():
                 params.all_instructions.append(Instruction(spline[0],spline[1],spline[2],None,params.global_ins_counter))
             else:
                 #Weird instruction
-                print 'WEIRD INSTRUCTION: ' + line
+                print 'WEIRD INSTRUCTION:', line
                 assert False
             params.instr_type[params.global_ins_counter] = spline[0]
             params.global_ins_counter += 1
@@ -71,7 +71,7 @@ def simulate():
             iq.append(params.all_instructions[curr_index])
             curr_index += 1
 
-        if len(iq) == 0 and len(params.rb.entries) == 0 and curr_index >= len(params.all_instructions) and len(memory_access_queue) == 0:
+        if len(iq) == 0 and len(params.rb.entries) == 0 and curr_index >= len(params.all_instructions) and len(params.memory_access_queue) == 0:
             break
 
         #Index into instruction queue
@@ -84,7 +84,7 @@ def simulate():
 
             if len(params.rs.entries)>= params.MAX_RS_SIZE or len(params.rb.entries) >= params.MAX_RB_SIZE:
                 break
-            print 'bext instruction: ID ' + str(instr.index)
+            print 'bext instruction: ID', instr.index
 
             entry = ReservationStationEntry(instr.index)
             assert params.rs.add_entry(entry)
@@ -92,7 +92,7 @@ def simulate():
             iq.popleft()
 
             if instr.opcode != 'LOAD' and instr.opcode != 'STORE':
-                print 'Alu instruction: ID ' + str(instr.index)
+                print 'Alu instruction: ID', instr.index
 
                 if instr.src1[0] == 'R':
                     reg1 = int(instr.src1[1:])
@@ -127,7 +127,7 @@ def simulate():
                 params.rb.add_entry(ReorderBufferEntry(instr.index))
 
             elif instr.opcode == 'STORE':
-                print 'Store instruction: ID ' + instr.index
+                print 'Store instruction: ID ', instr.index
 
                 params.store_counter += 1
                 #Store to register. TODO: Other case.
@@ -158,14 +158,14 @@ def simulate():
         entry = params.rs.get_load_entries()
         if entry:
             if load_fu.set_instruction(entry):
-                print 'Setting load fu to ' + entry.index
+                print 'Setting load fu to ', entry.index
         entry = params.rs.get_store_entries()
         if entry:
             if store_fu.set_instruction(entry):
-                print 'Setting store fu to ' + entry.index
+                print 'Setting store fu to ', entry.index
 
         for i in range(params.NUM_ALU):
-            print 'FU ' + str(i)
+            print 'FU ', i
             if params.fu[i].is_busy():
                 if params.fu[i].instruction_wait_done():
                     print 'Instruction ', params.fu[i].entry.index, ' in ALU ', i, ' is done.'
@@ -176,14 +176,14 @@ def simulate():
         if load_fu.is_busy():
             print 'LOAD FU'
             if load_fu.instruction_wait_done():
-                print 'Instruction ' + load_fu.entry.index + ' in load FU is done.'
+                print 'Instruction ', load_fu.entry.index, ' in load FU is done.'
                 load_fu.execute_load_instruction()
             else:
                 load_fu.increment_time()
 
         if store_fu.is_busy():
             if store_fu.instruction_wait_done():
-                print 'Instruction ' + store_fu.entry.index + ' in store FU is done.'
+                print 'Instruction ', store_fu.entry.index, ' in store FU is done.'
                 store_fu.execute_store_instruction()
             else:
                 store_fu.increment_time()
@@ -191,11 +191,11 @@ def simulate():
         while params.rb.popleft():
             pass
 
-        if len(memory_access_queue) > 0:
-            top_elem = memory_access_queue[0]
+        if len(params.memory_access_queue) > 0:
+            top_elem = params.memory_access_queue[0]
             if params.instr_type[top_elem.index] == 'STORE':
                 if top_elem.time_in_mem < latency['STORE']:
-                    print 'Waiting time for store in queue ' + str(top_elem.time_in_mem)
+                    print 'Waiting time for store in queue ', top_elem.time_in_mem
                     top_elem.time_in_mem += 1
                 else:
                     copy_buffer_mem()
@@ -216,11 +216,11 @@ def simulate():
         print 'RX Value Busy Tag'
         i = 0
         for reg in params.registers:
-            print str(i) + ' ' + str(reg.data.value) + ' ' + str(reg.busy_bit) + ' ' + str(reg.get_tag())
+            print i, reg.data.value, reg.busy_bit, reg.get_tag()
             i += 1
 
 
-        print 'End of cycle ' + cycle_no
+        print 'End of cycle ', cycle_no
         cycle_no += 1
 
 if __name__ == "__main__":

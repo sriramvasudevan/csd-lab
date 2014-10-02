@@ -21,15 +21,15 @@ class ReorderBuffer:
     def popleft(self):
         if len(self.entries)==0 or not self.entries[0].is_finished():
             return False
-        if instr_type[self.entries[0].index]=='STORE':
+        if params.instr_type[self.entries[0].index]=='STORE':
             top_entry = self.entries[0]
             if top_entry.store_memory_access:
                 return False
             print "Trying to pop 'STORE' inst.", top_entry.index
             assert top_entry.is_finished()
-            if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[0][top_entry.store_addreses]):
-                buffer_validity[0][top_entry.store_addreses] = True
-                buffer_validity[1][top_entry.store_addreses] = False
+            if (self.buff_size()<MAX_STORE_BUFF or params.buffer_validity[0][top_entry.store_addreses]):
+                params.buffer_validity[0][top_entry.store_addreses] = True
+                params.buffer_validity[1][top_entry.store_addreses] = False
                 buff[0][top_entry.store_addreses] = top_entry.store_val
                 top_entry.complete_bit = True
                 store_counter -= 1
@@ -43,8 +43,8 @@ class ReorderBuffer:
                 memory_access_queue.append(MemoryAccessEntry(top_entry.index, top_entry, top_entry.store_address))
                 top_entry.store_memory_access = True
                 return False
-        elif instr_type[top_entry.index] == 'LOAD':
-            if top_entry.is_complete():
+        elif params.instr_type[self.entries[0].index] == 'LOAD':
+            if not self.entries[0].is_complete():
                 return False
             else:
                 self.entries.popleft()
@@ -57,7 +57,7 @@ class ReorderBuffer:
 
     def buff_size(self): #TODO
         size = 0
-        for something in buffer_validity:
+        for something in params.buffer_validity:
             if something.first.second == 1 and something.second:
                 size += 1
         return size

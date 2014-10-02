@@ -82,7 +82,7 @@ def simulate():
 
             if len(params.rs.entries)>= params.MAX_RS_SIZE or len(params.rb.entries) >= params.MAX_RB_SIZE:
                 break
-            print 'bext instruction: ID', instr.index
+            print 'Next instruction: ID ', instr.index
 
             entry = ReservationStationEntry(instr.index)
             assert params.rs.add_entry(entry)
@@ -148,6 +148,15 @@ def simulate():
 
             elif instr.opcode == 'LOAD':
                 params.registers[int(instr.dest[1:])].set_tag(instr.index)
+
+                if instr.src1[0] == 'R':
+                    reg1 = int(instr.src1[1:])
+                    if params.registers[reg1].is_busy():
+                        entry.operand1.set_tag(params.registers[reg1].get_tag())
+                    else:
+                        entry.operand1.set_value(params.registers[reg1].get_data())
+                else:
+                    entry.operand1.set_value(int(instr.src1))
         
         entries = params.rs.get_alu_entries()
         j = 0

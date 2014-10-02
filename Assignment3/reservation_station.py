@@ -14,7 +14,7 @@ class ReservationStation:
     def remove_entry(self, entry_id):
         for entry in self.entries:
             if (entry.index == entry_id and entry.is_valid()):
-                    del entry
+                    self.entries.remove(entry)
                     return True
         return False
 

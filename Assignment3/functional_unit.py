@@ -24,9 +24,11 @@ class FunctionalUnit:
         if not self.is_busy() and not self.entry.is_valid():
             return False
 
-        result = self.entry.operand1.value + self.entry.operand2.value
+        result = self.entry.operand1.value
         self.time_in_fu = 1
 
+        self.update_register_file(self.entry.index,result)
+        self.update_reservation_station(self.entry.index, result)
         self.update_reorder_buffer(self.entry.index,params.instr_type[self.entry.index],result)
         params.rs.remove_entry(self.entry.index)
 

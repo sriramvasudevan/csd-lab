@@ -1,7 +1,9 @@
 # assuming buffer_validity = [{},{}]
+from collections import deque
+
 class ReorderBuffer:
     def __init__(self):
-        self.entries = None
+        self.entries = deque()
 
     def set_issue(self, entry_id):
         for entry in self.entries:
@@ -19,7 +21,7 @@ class ReorderBuffer:
     def popleft(self):
         if len(self.entries)==0 or not self.entries[0].is_finished():
             return False
-        if instr.type[self.entries[0].id]==STORE:
+        if instr_type[self.entries[0].id]==STORE:
             top_entry = self.entries[0]
             if top_entry.store_memory_access:
                 return False

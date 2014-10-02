@@ -1,6 +1,6 @@
 class ReservationStation:
     def __init__(self):
-        self.entries = None
+        self.entries = []
 
     def add_entry(self, entry):
         if(len(self.entries) >= MAX_RS_SIZE):
@@ -43,4 +43,4 @@ class ReservationStationEntry:
         this.issued = False
 
     def is_valid(self):
-        return (self.operand1.is_valid() and self.operand2.is_valid() and (True if not instr.type[self.id]==STORE else this.store_operand.is_valid()))
+        return (self.operand1.is_valid() and self.operand2.is_valid() and (True if not instr_type[self.id]==STORE else this.store_operand.is_valid()))

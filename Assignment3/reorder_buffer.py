@@ -1,4 +1,5 @@
 from collections import deque
+import params
 
 class ReorderBuffer:
     def __init__(self):
@@ -6,13 +7,13 @@ class ReorderBuffer:
 
     def set_issue(self, entry_id):
         for entry in self.entries:
-            if entry.id == entry_id:
+            if entry.index == entry_id:
                 entry.issue_bit = True
                 return True
         return False
 
     def add_entry(self, entry):
-        if(len(self.entries) >= MAX_RB_SIZE):
+        if(len(self.entries) >= params.MAX_RB_SIZE):
             return False
         self.entries.append(entry)
         return True
@@ -20,11 +21,11 @@ class ReorderBuffer:
     def popleft(self):
         if len(self.entries)==0 or not self.entries[0].is_finished():
             return False
-        if instr_type[self.entries[0].id]=='STORE':
+        if instr_type[self.entries[0].index]=='STORE':
             top_entry = self.entries[0]
             if top_entry.store_memory_access:
                 return False
-            print "Trying to pop 'STORE' inst.", top_entry.id
+            print "Trying to pop 'STORE' inst.", top_entry.index
             assert top_entry.is_finished()
             if (self.buff_size()<MAX_STORE_BUFF or buffer_validity[0][top_entry.store_addreses]):
                 buffer_validity[0][top_entry.store_addreses] = True
@@ -37,12 +38,12 @@ class ReorderBuffer:
                 self.entries.popleft()
                 return True
             else:
-                print "Couldn't pop the Store Inst.", top_entry.id
+                print "Couldn't pop the Store Inst.", top_entry.index
                 print "Curr size of mem access queue", len(memory_access_queue)
-                memory_access_queue.append(MemoryAccessEntry(top_entry.id, top_entry, top_entry.store_address))
+                memory_access_queue.append(MemoryAccessEntry(top_entry.index, top_entry, top_entry.store_address))
                 top_entry.store_memory_access = True
                 return False
-        elif instr_type[top_entry.id] == 'LOAD':
+        elif instr_type[top_entry.index] == 'LOAD':
             if top_entry.is_complete():
                 return False
             else:
@@ -68,7 +69,7 @@ class ReorderBufferEntry:
         self.issue_bit = False
         self.finish_bit = False
         self.complete_bit = False
-        self.id = entry_id
+        self.index = entry_id
         self.load_val = float("-inf")
         self.store_val = float("+inf")
         self.store_address = -1

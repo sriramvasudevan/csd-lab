@@ -42,7 +42,9 @@ class ReservationStation:
 class ReservationStationEntry:
     def __init__(self, entry_id):
         self.index = entry_id
-        self.operand1 = self.operand2 = self.store_operand = OperandTag(0,1.0)
+        self.operand1 = OperandTag(0,1.0)
+        self.operand2 = OperandTag(0,1.0)
+        self.store_operand = OperandTag(0,1.0)
         self.issued = False
 
     def is_valid(self):

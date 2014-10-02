@@ -27,14 +27,14 @@ class ReorderBuffer:
                 return False
             print "Trying to pop 'STORE' inst.", top_entry.index
             assert top_entry.is_finished()
-            if (self.buff_size()<MAX_STORE_BUFF or params.buffer_validity[0][top_entry.store_addreses]):
-                params.buffer_validity[0][top_entry.store_addreses] = True
-                params.buffer_validity[1][top_entry.store_addreses] = False
-                buff[0][top_entry.store_addreses] = top_entry.store_val
+            if (self.buff_size()<params.MAX_STORE_BUFF or params.buffer_validity[0][top_entry.store_address]):
+                params.buffer_validity[0][top_entry.store_address] = True
+                params.buffer_validity[1][top_entry.store_address] = False
+                params.buff[0][top_entry.store_address] = top_entry.store_val
                 top_entry.complete_bit = True
-                store_counter -= 1
-                print "Store count", store_counter
-                assert store_counter>=0
+                params.store_counter -= 1
+                print "Store count", params.store_counter
+                assert params.store_counter>=0
                 self.entries.popleft()
                 return True
             else:
@@ -55,10 +55,10 @@ class ReorderBuffer:
             self.entries.popleft()
             return True
 
-    def buff_size(self): #TODO
+    def buff_size(self):
         size = 0
-        for add in buffer_validity[0]:
-            if buffer_validity[0][add]:
+        for add in params.buffer_validity[0]:
+            if params.buffer_validity[0][add]:
                 size += 1
         return size
 

@@ -12,19 +12,19 @@ store_fu = FunctionalUnit()
 
 def copy_buffer_mem():
     address = []
-    for add in buffer_validity[0]:
-        if buffer_validity[0][add]:
+    for add in params.buffer_validity[0]:
+        if params.buffer_validity[0][add]:
             address.append(add)
             if(len(address)==bandwidth):
                 break
     for a in address:
-        buff[1][a] = buff[0][a]
-        buffer_validity[0][a] = False
-        buffer_validity[1][a] = True
+        params.buff[1][a] = params.buff[0][a]
+        params.buffer_validity[0][a] = False
+        params.buffer_validity[1][a] = True
 
 def store_buffer_empty():
-    for add in buffer_validity[0]:
-        if buffer_validity[0][add]:
+    for add in params.buffer_validity[0]:
+        if params.buffer_validity[0][add]:
             return False
     return True
 
@@ -192,7 +192,7 @@ def simulate():
         if len(params.memory_access_queue) > 0:
             top_elem = params.memory_access_queue[0]
             if params.instr_type[top_elem.index] == 'STORE':
-                if top_elem.time_in_mem < latency['STORE']:
+                if top_elem.time_in_mem < params.latency['STORE']:
                     print 'Waiting time for store in queue ', top_elem.time_in_mem
                     top_elem.time_in_mem += 1
                 else:
@@ -203,7 +203,7 @@ def simulate():
                     else:
                         top_elem.time_in_mem = 0
             if params.instr_type[top_elem.index] == 'LOAD':
-                if top_elem.time_in_mem < latency['LOAD']:
+                if top_elem.time_in_mem < params.latency['LOAD']:
                     top_elem.time_in_mem += 1
                 else:
                     top_elem.popleft()

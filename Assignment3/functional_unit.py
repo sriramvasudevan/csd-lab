@@ -105,14 +105,14 @@ class FunctionalUnit:
             for entry in params.rb.entries:
                 if entry.index == i_id:
                     if params.buffer_validity[0][address]:
-                        entry.load_val = buff[0][address]
+                        entry.load_val = params.buff[0][address]
                         self.update_register_file(i_id,entry.load_val)
                         self.update_reservation_station(i_id,entry.load_val)
                         entry.finish_bit = True
                         entry.complete_bit = True
                     else:
                         entry.finish_bit = True
-                        memory_access_queue.append(MemoryAccessEntry(i_id,entry,address))
+                        params.memory_access_queue.append(MemoryAccessEntry(i_id,entry,address))
                     return
         elif itype == 'STORE':
             for entry in params.rb.entries:

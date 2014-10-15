@@ -1,0 +1,14 @@
+# Global Vars
+NUM_BLOCKS 64 
+NUM_BLOCKS_MEMORY 32
+NUM_PROC 2
+
+MO 0
+OW 1
+EX 2
+SH 3
+IN 4
+
+NP 5
+
+#define NUM_ITER (1LL<<15)

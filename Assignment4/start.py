@@ -5,7 +5,7 @@ from random import randrange
 def other(proc_id):
     return (proc_id+1)%2
 
-def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,bs,obs):
+def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,bs,obs):
     if rw == 'read':
         if bs == NP:
             if obs == NP or obs == I:
@@ -93,7 +93,7 @@ def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,b
                 state_trans[rw] += 1
             else:
                 assert False
-         elif bs == S:
+        elif bs == S:
             if obs == IN:
                 assert False
             if obs == S:
@@ -123,7 +123,7 @@ def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,b
                 trans[rw] += 2
 
 def simulate(protocol='MESI'):
-    proc = [Cache() for _ in range(NUM_PROC)]
+    proc = [Cache(), Cache()]
     iternos = 0
     trans = {}
     trans['read'] = 0
@@ -157,13 +157,14 @@ def simulate(protocol='MESI'):
         iternos += 1
         
     print "No. iterations:", iternos
-    print "Read transactions:", read_trans
-    print "Write transactions:", write_trans
-    print "Read State transactions:", state_read_trans
-    print "Write State transactions:", state_write_trans
+    print "Read transactions:", trans['read']
+    print "Write transactions:", trans['write']
+    print "Read State transactions:", state_trans['read']
+    print "Write State transactions:", state_trans['write']
 
 
 if __name__=="__main__":
     for protocol in ['MESI', 'MOESI']:
         print protocol, "Protocol Simulation:"
         simulate(protocol)
+        break

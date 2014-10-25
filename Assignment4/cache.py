@@ -1,25 +1,26 @@
+from params import *
 class Block:
     def __init__():
-        self.state = IN
+        self.state = I
         self.block_address = -1
 
     def setInvalidate():
-        self.state = IN
+        self.state = I
 
     def setShared(address):
-        self.state = SH
+        self.state = S
         self.block_address = address
 
-    def setModify(address):
-        self.state = MO
+    def setModified(address):
+        self.state = M
         self.block_address = address
 
     def setExclusive(address):
-        self.state = EX
+        self.state = E
         self.block_address = address
 
     def setOwned(address):
-        self.state = OW
+        self.state = O
         self.block_address = address
 
 class Cache:
@@ -27,10 +28,13 @@ class Cache:
         self.blocks = [Block() for _ in range(NUM_BLOCKS)]
 
     def getState(address):
-        block_id = address%NUM_BLOCKS
+        block_id = address%NUM_BLOCKS_CACHE
         if(self.blocks[block_id].block_address == address):
             return self.blocks[block_id].state
-        return NP
+        return NP #Not present
+
+    def getBlockState(block_id):
+        return self.blocks[block_id].state
 
     def setInvalidate(address):
         block_id = address%NUM_BLOCKS
@@ -45,9 +49,9 @@ class Cache:
         block_id = address%NUM_BLOCKS
         self.blocks[block_id].setShared(address)
 
-    def setModify(address):
+    def setModified(address):
         block_id = address%NUM_BLOCKS
-        self.blocks[block_id].setModify(address)
+        self.blocks[block_id].setModified(address)
 
     def setOwned(address):
         block_id = address%NUM_BLOCKS

@@ -5,122 +5,152 @@ from random import randrange,choice
 def other(proc_id):
     return (proc_id+1)%2
 
-def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,bs,obs):
+def rwMOESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,bs,obs):
     if rw == 'read':
-        if bs == NP:
+        if bs == NP or bs == I:
+            #BusRd request
+            trans[rw] += 1
             if obs == NP or obs == I:
                 proc[proc_id].setExclusive(mem_block_id)
                 state_trans[rw] += 1
-                trans[rw] += 1
             elif obs == E:
                 proc[proc_id].setShared(mem_block_id)
                 proc[other(proc_id)].setShared(mem_block_id)
                 state_trans[rw] += 2
-                trans[rw] += 1
             elif obs == S:
                 proc[proc_id].setShared(mem_block_id)
                 state_trans[rw] += 1
-                trans[rw] += 1    
             elif obs == M:
                 proc[proc_id].setShared(mem_block_id)
-                proc[other(proc_id)].setShared(mem_block_id)
+                proc[other(proc_id)].setOwned(mem_block_id)
                 state_trans[rw] += 2
-                trans[rw] += 2
+            elif obs == O:
+                proc[proc_id].setShared(mem_block_id)
+                state_trans[rw] += 1
         elif bs == M:
-            if obs == NP or obs == I:
-                pass
-            else:
-                assert False
+            #The other processor shouldn't be in any other state
+            assert obs == NP or obs == I
         elif bs == E:
-            if obs == NP or obs == I:
-                pass
-            else:
-                assert False
-
+            #The other processor shouldn't be in any other state
+            assert obs == NP or obs == I
         elif bs == S:
-            if obs == NP or obs == S:
-                trans[rw] += 1
-            else:
-                assert False
-        elif bs == I:
-            if obs == NP or obs == I:
-                proc[proc_id].setExclusive(mem_block_id)
-                state_trans[rw] += 1
-                trans[rw] += 1
-            elif obs == E:
-                proc[proc_id].setShared(mem_block_id)
-                proc[other(proc_id)].setShared(mem_block_id)
-                state_trans[rw] += 2
-                trans[rw] += 1
-            elif obs == S:
-                assert False
-            elif obs == M:
-                proc[proc_id].setShared(mem_block_id)
-                proc[other(proc_id)].setShared(mem_block_id)
-                state_trans[rw] += 2
-                trans[rw] += 2
-
+            assert obs == NP or obs == I or obs == S or obs == O
+        elif bs == O:
+            assert obs == NP or obs == I or obs == S
 
     elif rw == 'write':
-        if bs == NP:
+        if bs == NP or bs == I:
+            #busreadx request
+            trans[rw] += 1
             if obs == NP or obs == I:
                 proc[proc_id].setModified(mem_block_id)
                 state_trans[rw] += 1
-                trans[rw] += 1
             elif obs == E:
                 proc[proc_id].setModified(mem_block_id)
                 proc[other(proc_id)].setInvalidate(mem_block_id)
                 state_trans[rw] += 2
-                trans[rw] += 1
             elif obs == S:
+                proc[proc_id].setModified(mem_block_id)
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 2 
+            elif obs == M:
+                proc[proc_id].setModified(mem_block_id)
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 2
+            elif obs == O:
+                proc[proc_id].setModified(mem_block_id)
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 2
+        elif bs == M:
+            assert obs == NP or obs == I
+        elif bs == E:
+            assert obs == NP or obs == I
+            proc[proc_id].setModified(mem_block_id)
+            state_trans[rw] += 1
+        elif bs == S:
+            assert obs != M and obs != E
+            #BusrdX request
+            trans[rw] += 1
+            proc[proc_id].setModified(mem_block_id)
+            state_trans[rw] += 1
+            if obs == S:
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 1
+            elif obs == O:
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 1
+        elif bs == O:
+            assert obs != M and obs != E and obs != O
+            #BusrdX request
+            trans[rw] += 1
+            proc[proc_id].setModified(mem_block_id)
+            state_trans[rw] += 1
+            if obs == S:
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 1
+
+def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,bs,obs):
+    if rw == 'read':
+        if bs == NP or bs == I:
+            #BusRd request
+            trans[rw] += 1
+            if obs == NP or obs == I:
+                proc[proc_id].setExclusive(mem_block_id)
+                state_trans[rw] += 1
+            elif obs == E:
                 proc[proc_id].setShared(mem_block_id)
                 proc[other(proc_id)].setShared(mem_block_id)
-                state_trans[rw] += 2 #TODO: Shouldn't this just be 1?
-                trans[rw] += 1    
+                state_trans[rw] += 2
+            elif obs == S:
+                proc[proc_id].setShared(mem_block_id)
+                state_trans[rw] += 1
             elif obs == M:
-                proc[proc_id].setModified(mem_block_id)
-                proc[other(proc_id)].setInvalidate(mem_block_id)
+                proc[proc_id].setShared(mem_block_id)
+                proc[other(proc_id)].setShared(mem_block_id)
                 state_trans[rw] += 2
-                trans[rw] += 2
         elif bs == M:
-            if obs == NP or obs == I:
-                pass
-            else:
-                assert False
+            #The other processor shouldn't be in any other state
+            assert obs == NP or obs == I
         elif bs == E:
-            if obs == NP or obs == I:
-                proc[proc_id].setModified(mem_block_id)
-                state_trans[rw] += 1
-            else:
-                assert False
+            #The other processor shouldn't be in any other state
+            assert obs == NP or obs == I
         elif bs == S:
-            if obs == I:
-                assert False
-            if obs == S:
-                proc[proc_id].setModified(mem_block_id)
-                proc[other(proc_id)].setInvalidate(mem_block_id)
-                state_trans[rw] += 2
-                trans[rw]+= 1
-                trans[rw] += 1
-            else:
-                assert False
-        elif bs == I:
+            assert obs == NP or obs == I or obs == S
+
+    elif rw == 'write':
+        if bs == NP or bs == I:
+            #busreadx request
+            trans[rw] += 1
             if obs == NP or obs == I:
                 proc[proc_id].setModified(mem_block_id)
                 state_trans[rw] += 1
-                trans[rw] += 1
             elif obs == E:
                 proc[proc_id].setModified(mem_block_id)
                 proc[other(proc_id)].setInvalidate(mem_block_id)
                 state_trans[rw] += 2
-                trans[rw] += 1
             elif obs == S:
-                assert False
+                proc[proc_id].setModified(mem_block_id)
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 2 
             elif obs == M:
                 proc[proc_id].setModified(mem_block_id)
-                proc[other(proc_id)].setShared(mem_block_id)
+                proc[other(proc_id)].setInvalidate(mem_block_id)
                 state_trans[rw] += 2
-                trans[rw] += 2
+        elif bs == M:
+            assert obs == NP or obs == I
+        elif bs == E:
+            assert obs == NP or obs == I
+            proc[proc_id].setModified(mem_block_id)
+            state_trans[rw] += 1
+        elif bs == S:
+            assert obs != M and obs != E
+            #BusrdX request
+            trans[rw] += 1
+            proc[proc_id].setModified(mem_block_id)
+            state_trans[rw] += 1
+            if obs == S:
+                proc[other(proc_id)].setInvalidate(mem_block_id)
+                state_trans[rw] += 1
 
 def simulate(protocol='MESI'):
     proc = [Cache(), Cache()]
@@ -156,18 +186,20 @@ def simulate(protocol='MESI'):
         elif(protocol=='MOESI'):
             rwMOESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,other_block_state)
         iternos += 1
-        if iternos%10000 == 0:
+        if iternos%100000 == 0:
             print iternos
         
     print "No. iterations:", iternos
-    print "Read transactions:", trans['read']
-    print "Write transactions:", trans['write']
+    print "Read coherence places:", trans['read']
+    print "Write coherence places:", trans['write']
     print "Read State transactions:", state_trans['read']
     print "Write State transactions:", state_trans['write']
+    print
+    print "Total coherence places:", trans['write'] + trans['read']
+    print "Total state transactions:", state_trans['read'] + state_trans['write']
 
 
 if __name__=="__main__":
     for protocol in ['MESI', 'MOESI']:
         print protocol, "Protocol Simulation:"
         simulate(protocol)
-        break

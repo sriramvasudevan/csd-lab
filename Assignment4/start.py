@@ -1,6 +1,6 @@
 from cache import Cache
 from params import *
-from random import randrange
+from random import randrange,choice
 
 def other(proc_id):
     return (proc_id+1)%2
@@ -94,7 +94,7 @@ def rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,bs,obs):
             else:
                 assert False
         elif bs == S:
-            if obs == IN:
+            if obs == I:
                 assert False
             if obs == S:
                 proc[proc_id].setModified(mem_block_id)
@@ -137,24 +137,27 @@ def simulate(protocol='MESI'):
         mem_block_id = randrange(NUM_BLOCKS_MEM)
         block_id = mem_block_id%NUM_BLOCKS_CACHE
 
-        for rw in ['read', 'write']:
+        rw = choice(['read','write'])
 
-            #TODO: Understand this. We'll have to write back to memory in this case.
-            if (proc[proc_id].getState(mem_block_id) == NP and 
-                    proc[proc_id].getBlockState(block_id)==M):
-                trans[rw] += 1 
-            print 'Proc:', proc_id, ' Mem ', rw, ' location: ', mem_block_id, ' block ID: ', block_id
-            block_state = proc[proc_id].getState(mem_block_id)
+        block_state = proc[proc_id].getState(mem_block_id)
 
-            #Assuming two processors
-            other_block_state = proc[other(proc_id)].getState(mem_block_id)
-            print "Current state in ", rw," ", block_state, "; Other block state ", other_block_state
-            # Read/Write opn
-            if(protocol=='MESI'):
-                rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,other_block_state)
-            elif(protocol=='MOESI'):
-                rwMOESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,other_block_state)
+        #TODO: Verify that it's okay to comment this.
+#        if (block_state == NP or block_state == I) and 
+#                proc[proc_id].getBlockState(block_id)==M:
+#            trans[rw] += 1 
+#            print 'Proc:', proc_id, ' Mem ', rw, ' location: ', mem_block_id, ' block ID: ', block_id
+
+        #Assuming two processors
+        other_block_state = proc[other(proc_id)].getState(mem_block_id)
+#            print "Current state in ", rw," ", block_state, "; Other block state ", other_block_state
+        # Read/Write opn
+        if(protocol=='MESI'):
+            rwMESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,other_block_state)
+        elif(protocol=='MOESI'):
+            rwMOESI(rw,proc,trans,state_trans,proc_id,mem_block_id,block_id,block_state,other_block_state)
         iternos += 1
+        if iternos%10000 == 0:
+            print iternos
         
     print "No. iterations:", iternos
     print "Read transactions:", trans['read']

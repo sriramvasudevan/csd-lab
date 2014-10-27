@@ -14,4 +14,4 @@ S = 3
 I = 4
 
 NP = 5
-NUM_ITER = 10
+NUM_ITER = 1000000

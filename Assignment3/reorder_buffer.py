@@ -31,6 +31,7 @@ class ReorderBuffer:
                 params.buffer_validity[0][top_entry.store_address] = True
                 params.buffer_validity[1][top_entry.store_address] = False
                 params.buff[0][top_entry.store_address] = top_entry.store_val
+                print 'Storing', top_entry.store_address, top_entry.store_val
                 top_entry.complete_bit = True
                 params.store_counter -= 1
                 print "Store count", params.store_counter

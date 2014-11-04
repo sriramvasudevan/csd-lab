@@ -70,6 +70,7 @@ def simulate():
             curr_index += 1
 
         if len(iq) == 0 and len(params.rb.entries) == 0 and curr_index >= len(params.all_instructions) and len(params.memory_access_queue) == 0:
+            print 'all done'
             break
 
         #Index into instruction queue
@@ -125,7 +126,7 @@ def simulate():
                 params.rb.add_entry(ReorderBufferEntry(instr.index))
 
             elif instr.opcode == 'STORE':
-                print 'Store instruction: ID ', instr.index
+                print 'Store instruction: ID ', instr.index, instr.src1, instr.src2, instr.dest
 
                 params.store_counter += 1
                 if instr.dest[0] == 'R':
@@ -156,6 +157,8 @@ def simulate():
                         entry.operand1.set_value(params.registers[reg1].get_data())
                 else:
                     entry.operand1.set_value(int(instr.src1))
+
+                params.rb.add_entry(ReorderBufferEntry(instr.index))
         
         entries = params.rs.get_alu_entries()
         j = 0
@@ -214,7 +217,7 @@ def simulate():
                         top_elem.popleft()
                     else:
                         top_elem.time_in_mem = 0
-            if params.instr_type[top_elem.index] == 'LOAD':
+            elif params.instr_type[top_elem.index] == 'LOAD':
                 if top_elem.time_in_mem < params.latency['LOAD']:
                     top_elem.time_in_mem += 1
                 else:
@@ -233,8 +236,12 @@ def simulate():
         for entry in params.rs.entries:
             print entry.index
 
+        print 'Reorder Buffer entries:'
+        for entry in params.rb.entries:
+            print entry.index
 
         print 'End of cycle ', cycle_no
+        print ''
         cycle_no += 1
 
 if __name__ == "__main__":
@@ -246,13 +253,9 @@ if __name__ == "__main__":
 
     params.buff[0][0] = 10
     params.buff[0][4] = 5
-    params.buff[0][8] = 4
-    params.buff[0][12] = 7
 
     params.buffer_validity[0][0] = True
     params.buffer_validity[0][4] = True
-    params.buffer_validity[0][8] = True
-    params.buffer_validity[0][12] = True
 
     populate_instructions()
     simulate()

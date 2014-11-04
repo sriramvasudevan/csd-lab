@@ -20,8 +20,6 @@ latency = {}
 #Our registers
 registers = []
 
-memoryvalues = {}
-
 rb = rs = fu = None
 
 #A list of instructions
@@ -45,5 +43,3 @@ def initvars():
     rs = reservation_station.ReservationStation()
 
     fu = [functional_unit.FunctionalUnit() for i in range(NUM_ALU)]
-
-    memoryvalues = {}

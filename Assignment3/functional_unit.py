@@ -24,27 +24,26 @@ class FunctionalUnit:
         if not self.is_busy() and not self.entry.is_valid():
             return False
 
-        if self.entry.operand1.value in params.memoryvalues:
-            result = params.memoryvalues[self.entry.operand1.value]
+        if self.entry.operand1.value in params.buff[0]:
+            result = self.entry.operand1.value
         else:
             result = 0
         self.time_in_fu = 1
 
-        self.update_register_file(self.entry.index,result)
-        self.update_reservation_station(self.entry.index, result)
+        #self.update_register_file(self.entry.index,result)
+        #self.update_reservation_station(self.entry.index, result)
         self.update_reorder_buffer(self.entry.index,params.instr_type[self.entry.index],result)
         params.rs.remove_entry(self.entry.index)
 
         return self.remove_instruction()
 
-    def execute_store_instruction(self ):
+    def execute_store_instruction(self):
         if not self.is_busy() and not self.entry.is_valid():
             return False
 
-        result = self.entry.operand1.value
+        result = self.entry.store_operand.value
         self.time_in_fu = 1
 
-        params.memoryvalues[self.entry.store_operand.value] = result
         self.update_reorder_buffer(self.entry.index,params.instr_type[self.entry.index],result)
         params.rs.remove_entry(self.entry.index)
 
@@ -119,21 +118,17 @@ class FunctionalUnit:
                     else:
                         entry.finish_bit = True
                         params.memory_access_queue.append(MemoryAccessEntry(i_id,entry,address))
-                    return
         elif itype == 'STORE':
             for entry in params.rb.entries:
                 if entry.index == i_id:
-                    entry.store_val = self.entry.store_operand.value
+                    entry.store_val = self.entry.operand1.value
                     entry.store_address = address
-                    params.memoryvalues[entry.store_address] = entry.store_val
                     entry.finish_bit = True
-                    return
         else: # type==None
             for entry in params.rb.entries:
                 if entry.is_busy() and entry.is_issued() and entry.index == i_id:
                     entry.finish_bit = True
                     entry.complete_bit = True
-                    return
 
     def increment_time(self):
         if self.is_busy():
@@ -144,11 +139,6 @@ class FunctionalUnit:
     def instruction_wait_done(self):
         if self.is_busy():
             itype = params.instr_type[self.entry.index]
-            if itype == 'LOAD' or itype == 'STORE':
-                itype = 'ADD'
-        
-            assert self.time_in_fu <= params.latency[itype]
-
             if self.time_in_fu >= params.latency[itype]:
                 return True
             return False

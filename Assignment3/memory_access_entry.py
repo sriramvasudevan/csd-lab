@@ -10,7 +10,7 @@ class MemoryAccessEntry:
     def popleft(self):
         if len(params.memory_access_queue)==0:
             return False
-        assert (self.entry.is_finished() and not self.entry.is_complete)
+        assert (self.entry.is_finished() and not self.entry.is_complete())
         if params.instr_type[self.entry.index] == 'LOAD':
             assert not params.buffer_validity[0][self.address]
             self.entry.set_load_val(params.buff[1][self.address])
@@ -19,10 +19,10 @@ class MemoryAccessEntry:
 
         elif params.instr_type[self.entry.index] == 'STORE':
             #This implies the current rb head is a 'STORE'
-            assert (len(rb.entries)>0 and params.instr_type[rb.entries[0].index]=='STORE')
+            assert (len(params.rb.entries)>0 and params.instr_type[params.rb.entries[0].index]=='STORE')
             #popleft function will take care of writing the store value in store buffer and popping it
             self.entry.store_memory_access = False
-            rb.popleft()
+            params.rb.popleft()
   
         params.memory_access_queue.popleft()
         return True

@@ -1,54 +1,58 @@
+from params import *
 class Block:
-    def __init__():
-        self.state = IN
+    def __init__(self):
+        self.state = I
         self.block_address = -1
 
-    def setInvalidate():
-        self.state = IN
+    def setInvalidate(self):
+        self.state = I
 
-    def setShared(address):
-        self.state = SH
+    def setShared(self,address):
+        self.state = S
         self.block_address = address
 
-    def setModify(address):
-        self.state = MO
+    def setModified(self,address):
+        self.state = M
         self.block_address = address
 
-    def setExclusive(address):
-        self.state = EX
+    def setExclusive(self,address):
+        self.state = E
         self.block_address = address
 
-    def setOwned(address):
-        self.state = OW
+    def setOwned(self,address):
+        self.state = O
         self.block_address = address
 
 class Cache:
-    def __init__():
-        self.blocks = [Block() for _ in range(NUM_BLOCKS)]
+    def __init__(self):
+        self.blocks = [Block() for _ in range(NUM_BLOCKS_CACHE)]
 
-    def getState(address):
-        block_id = address%NUM_BLOCKS
+    def getState(self,address):
+        block_id = address%NUM_BLOCKS_CACHE
         if(self.blocks[block_id].block_address == address):
             return self.blocks[block_id].state
-        return NP
+        return NP #Not present
 
-    def setInvalidate(address):
-        block_id = address%NUM_BLOCKS
+    def getBlockState(self,block_id):
+        return self.blocks[block_id].state
+
+    def setInvalidate(self,address):
+        block_id = address%NUM_BLOCKS_CACHE
         assert (self.blocks[block_id].block_address==address)
         self.blocks[block_id].setInvalidate()
 
-    def setExclusive(address):
-        block_id = address%NUM_BLOCKS
+    def setExclusive(self,address):
+        block_id = address%NUM_BLOCKS_CACHE
         self.blocks[block_id].setExclusive(address)
 
-    def setShared(address):
-        block_id = address%NUM_BLOCKS
+    def setShared(self,address):
+        block_id = address%NUM_BLOCKS_CACHE
         self.blocks[block_id].setShared(address)
 
-    def setModify(address):
-        block_id = address%NUM_BLOCKS
-        self.blocks[block_id].setModify(address)
+    def setModified(self,address):
+        block_id = address%NUM_BLOCKS_CACHE
+        self.blocks[block_id].setModified(address)
 
-    def setOwned(address):
-        block_id = address%NUM_BLOCKS
+    def setOwned(self,address):
+        block_id = address%NUM_BLOCKS_CACHE
         self.blocks[block_id].setOwned(address)

@@ -1,0 +1,145 @@
+% CS4110 -- Assignment 1
+% Sriram V (CS11B058)
+% August 17, 2014
+
+## Answer 1
+* DVDs rely on a red laser to read and write data, whereas Blu-Ray uses a blue-violet laser instead. The benefit of using a blue-violet laser (405nm) is that it has a shorter wavelength than a red laser (650nm), which makes it possible to focus the laser spot with even greater precision.  
+This allows data to be packed more tightly and stored in less space, thus making it possible to fit more data on the disc even though it is the size of a DVD. This together with the change of numerical aperture to 0.85 is what enables Blu-ray discs to hold 25GB/50GB.
+* The Blu-ray disc overcomes DVD-reading issues by placing the data on top of a 1.1-mm-thick polycarbonate layer. Having the data on top prevents birefringence and therefore prevents readability problems.
+* Since the recording layer sits closer to the objective lens of the reading mechanism, the problem of disc tilt is virtually eliminated.  
+
+## Answer 2
+* Bitcoin is a software-based online payment system described by Satoshi Nakamoto in 2008 and introduced as open-source software in 2009. Payments are recorded in a public ledger using its own unit of account, which is also called bitcoin.
+* As payments work peer-to-peer without a central repository or single administrator, it is a decentralized virtual currency.
+* Although its status as a currency is disputed, it is commonly called a cryptocurrency.
+* Bitcoins are mined by using computing power to verify and record payments into the public ledger, the block chain.
+* Transactions are verified by digital signatures and hence cannot be counterfeited, but the public ledger can be used to link transactions to individuals and companies.
+* A valid payment message from an address must contain the associated public key and a digital signature proving possession of the associated private key. Because anyone with a private key can spend all of the bitcoins associated with the corresponding address, protection of private keys is quite important.  
+
+## Answer 3
+The various virtualization options in the Linux kernel and userspace include:
+
+* **Hardware-assisted virtualization:** Also known as accelerated virtualization, this approach enables efficient full virtualization using hardware capabilities, mainly from the host processors. The unmodified gues OS executes in complete isolation in the simulated hardware environment.
+* **Paravirtualization:** It presents a software interface, or hooks to allow the guest OS to request and acknowledge tasks, which would otherwise be executed virtually, leading to bad performance. This requires the guest OS to be explicitly ported for the para-API.
+* **Coopvirt (Cooperative Virtualization:** This is a hybrid of the above two methods, that takes advantage of technologies like Intel VT-x or AMD-V, as well as requiring the guest OS to interact only by means of the para-API.
+* **LXC (LinuX Containers):** It is an operating system–level virtualization method for running multiple isolated Linux systems (containers) on a single control host. LXC combines cgroups and namespace support to provide an isolated environment for applications.  
+
+## Answer 4
+* USB 3.0 is 10 times faster than USB 2.0. It is often referred to as Super Speed or SS, with a transfer speed of 4.8Gbps as compared to the High Speed (HS) USB 2.0's speeds of 480Mbps.
+* The signalling method is also asychronous in USB 3.0 ie., it can send and receive data simultaneously (full duplex) as opposed to USB 2.0's half duplex polling mechanism.
+* USB 3.0 is also more power efficient, has 9 wires (2.0 has 4) within the cable and has blue Standard-A connectors (USB 2.0 has grey connectors). It is backwards compatible with USB 2.0
+* USB 3.1 offers higher speeds of 10 Gbps (SuperSpeed+), putting it on par with Thunderbolt Gen 1. It too is backward compatible with USB 3.0 and 2.0.
+* Further, it allows devices with large energy demands request higher currents and supply voltages from compliant hosts.
+* The encoding used in 3.1 is 128b132b which is more bandwidth efficient compared to USB 3.0's 8b10b scheme.  
+
+## Answer 5
+* Near field communication (NFC) is a set of standards for smart devices to establish radio communication with each other by bringing them into proximity (a few cm). They are based on exising RFID standards (uses the 13.56 MHz band). NFC uses magnetic induction between two loop antennas.
+* NFC applications can be split into four basic categories:
+    * Touch and Go: Transport ticketing, data capture applications (picking up a URL from a smart label on a poster).
+    * Touch and Confirm: Mobile payments, instead of confirming interactions by passwords or card-swiping)
+    * Touch and Connect: Linking two NFC devices to enable P2P transfer of data. For applications that require greater bandwidth such as games, this generally works by piggy-backing on a technology with greater bandwidth, such as bluetooth.
+    * Touch and Explore: NFC devices may offer multiple functions. Users can explore a device’s capabilities to find out which services are offered.  
+
+## Answer 6
+* The Oculus Rift is a virtual reality head-mounted display, that is currently being developed by Oculus VR, which was recently acquired by Facebook. The Development Kit 2 was released in July 2014, and features higher refresh rates, head positional tracking and the higher resolution screen of the Note 3.
+* The Rift completely covers the eyes, thus shutting off the user from the outside world.
+* It works by projecting slightly shifted and distored images (with an FoV of 90-110 degrees) for each eye, and using a lens to adjust this picture (using the pincushion effect), thereby producing the effect of stereoscopic 3D.
+* Apart from this, it also uses internal and external tracking devices to monitor the head position along six axes as well as track eyeball movement, to create corresponding in-game movements within 30ms.  
+
+## Answer 7
+* Thunderbolt is a technology similar to USB in that it allows connecting external peripherals to a computer. However, it combines PCIe and DisplayPort into one serial signal, together with a DC connection. The technology was co-developed by Apple and Intel, with an architecture different from that of the USB.
+* The first-generation Thunderbolt gave speeds of up to 10 Gbps, comparable to USB 3.1. Thunderbolt 2, that debuted in the 2013 Macbook Pro doubles this transfer rate by making use of channel aggregation.
+* Thus performance-wise Thunderbolt is much, much better than USB. However, it is currently not as widely available as USB ports. Also, the USB is practically free since it comes baked into chipsets from both AMD and Intel. Thunderbolt however, is very expensive.
+* An important issue to be noted is that Thunderbolt makes systems vulnerable to DMA attacks as it extends the PCIe bus, thereby providing low-level access.  
+
+## Answer 8
+* `systemd` is a system management daemon designed for Linux and programmed exclusively for the Linux API. It is the first process to execute in user space during startup, hence serving as the root of the user space's process tree.
+* It is a replacement for the old script-based SysVInit (or `init`), and has a very different design that integrates a lot of modules to allow for faster boot times.
+* It makes use of a lot of parallelization, starting some daemons simultaneously.
+* `systemd` supports DBus and sockets, so it can be easily controlled. Syntax is simpler too.
+* As it is an init binary, it is more aware about processes and is thus better at logging than say, `syslog`.
+* People are unhappy with `systemd` for various reasons including:
+    * Attitude of the key devs towards users and bug reports.
+    * The fact that core technologies like GNOME are becoming dependent on it and that it also integrates other software such as `dbus` and `udev`, thus reducing choice of other init daemons.
+    * Not POSIX compliant. BSD users aren't happy.
+    * Everything is in one package, which is against the UNIX philosophy of *"do one task, and do it well."*  
+
+## Answer 9
+* Multiprotocol Label Switching (MPLS) is a mechanism in high-performance networks that directs data from one node to the next based on short path labels rather than long network addresses, avoiding complex lookups in a routing table. The labels identify virtual links (paths) between distant nodes rather than endpoints. MPLS can encapsulate packets of various network protocols.
+* Service providers are switching their core networks to MPLS because it provides:
+    * Improved up-time
+    * Improved bandwidth utilization
+    * Reduced network congestion
+    * Quality of Service (QoS): Higher standards such as reliability, speed, and voice quality.
+    * Ability to assign priorities to packets based on labels  
+
+## Answer 10
+* Wireless charging essentially works on the principle of electromagnetic induction, making use of an electromagnetic field to transfer energy via an inductive coupling to an electrical device, which then uses this energy to charge batteries and/or run the device.
+* Induction chargers typically use an induction coil to create an alternating electromagnetic field from within a charging base station, and a second induction coil in the portable device takes power from the electromagnetic field and converts it back into electrical current to charge the battery. The two induction coils in proximity combine to form an electrical transformer.
+* Advantages include protected connections and durability (which are especially of great use for implanted devices, in the medical field), while prime disadvantages are lower efficieny, heat generation, and slower charging. It is also more expensive than conventional charging methods.  
+
+## Answer 11
+* Li-Fi is a wireless optical networking technology that uses light-emitting diodes (LEDs) for data transmission.
+* LiFi is designed to use LED light bulbs similar to those currently in use in many energy-conscious homes and offices. However, LiFi bulbs are outfitted with a chip that modulates the light imperceptibly for optical data transmission. LiFi data is transmitted by the LED bulbs and received by photoreceptors.
+* Some commercial kits providing speeds of 150 Mbps are available, although researchers have enabled 10 Gbps speeds with stronger LEDs and modified technology.
+* Benefits of LiFi:
+    * Higher speeds than Wi-Fi.
+    * 10000 times the frequency spectrum of radio.
+    * More secure because data cannot be intercepted without a clear line of sight.
+    * Prevents piggybacking.
+    * Eliminates neighboring network interference.
+    * Unimpeded by radio interference.
+    * Does not create interference in sensitive electronics, making it better for use in environments like hospitals and aircraft.
+* Drawbacks include the need for a clear line of sight, difficulties with mobility and the requirement that lights stay on for operation.  
+
+## Answer 12
+* The X Window System, or X11, is a network-transparent windowing system for bitmap displays. It acts as the interface between inputs and outputs.
+* X11 makes use of a client-server model. The server (on the host) communicates with the client programs via TCP port 6000. Thus, it is not necessary for the client programs to be running on the host machine. One of the fundamental design principles of X is to *"not serve all the world's needs; rather make the system extensible."*
+* From a developer's perspective, Wayland provides a smaller codebase that follows a good programming model and has a better API than the X server, which has become bloated by wrapping it in more and more extensions and plugins.
+* The X server also has tearing issues due to no media coherence, which is taken care of by a separate compositor. Wayland merges the server with the compositor.
+* Wayland also delegates all rendering responsibilities to the clients.  
+
+## Answer 13
+* D-Bus is a free, open source inter-process communication (IPC) system, allowing multiple, concurrently running processes to communicate with each other. It provides commmunication between:
+    * desktop apps in the same desktop session
+    * desktop session and the OS, including the kernel and any system daemons or processes
+* D-Bus also makes use of a bus topology thereby allowing more than one process to receive a message. It is thus something similar to Unix sockets, but has low overhead due to a binary protocol.
+* It helps us in various ways, say when we receive a phone call, D-Bus can send a message to the volume control to mute the audio that might be playing from the speakers and notify us of the call.  
+
+## Answer 14
+* Phase-change memory (PCM or PRAM) is a type of non-volatile random-access memory. PRAMs exploit the unique behaviour of chalcogenide glass, namely that its optical and electrical properties can be modified by switching it between an amporphous and crystalline state, thereby allowing the storage of information.
+* Advantages:
+    * Fast switching time and inherent scalability: This offers much higher performance in applications where writing quickly is important.
+    * Single bits may be changed without requiring to erase an entire block first.
+    * PRAMs degrade much more slowly than Flash, which degrades with each burst of voltage across the cell.
+* Drawbacks:
+    * High programming current density is needed (>107 A/cm², compared to 105-106 A/cm² for a typical transistor or diode).
+    * The contact between the hot phase-change region and the adjacent dielectric is another fundamental concern.
+    * The dielectric may begin to leak current at higher temperature, or may lose adhesion when expanding at a different rate from the phase-change material.
+    * The resistance of the amorphous state slowly increases according to a power law, and could jeopardize standard two-state operation if the threshold voltage increases beyond the design value.  
+
+## Answer 15
+* x86:
+    * The x86 architecture is a variable instruction length, primarily "CISC" design with emphasis on backward compatibility.
+    * Byte-addressing is enabled and words are stored in memory with little-endian byte order. It is a 32-bit processor.
+    * The current x86 architecture has been influenced by designs from both Intel and AMD.
+    * Examples include the Intel Pentium family, as well as the Atom processors.
+
+* x86-64/AMD64/x64:
+    * It is the 64-bit version of x86. It has a CISC architecture as well.
+    * It supports vastly larger amounts of virtual memory and physical memory than is possible on its predecessors, allowing programs to store larger amounts of data in memory.
+    * x86-64 also provides 64-bit general purpose registers and numerous other enhancements. The original specification was created by AMD, and has been implemented by AMD, Intel, VIA, and others.
+    * It is fully backwards compatible with 16-bit and 32-bit x86 code.
+    * Examples are the Intel Core (i3/i5/i7) series and the AMD Athlon family.
+
+* ARM:
+    * It is an instruction set architectures for processors based on RISC, developed by ARM Holdings.
+    * Thus ARM processors require significantly fewer transistors than typical x86 processors. Hence costs, heat and power use is reduced.
+    * Hence they are widely used in smartphones and tablets.
+    * A simpler design facilitates more efficient multi-core CPUs and higher core counts at lower cost, providing improved energy efficiency for servers.
+    * Popular ARM manufacturers include Qualcomm (the Snapdragon family of systems on a chip) and Apple (The A series). Apple was also the first company to release a 64-bit ARM chip on a consumer smartphone or tablet (the A7).
+
+* SPARC:
+    * SPARC (from "scalable processor architecture") is a RISC instruction set architecture (ISA) developed by Sun Microsystems and introduced in mid-1987.
+    * Implementations of the original 32-bit SPARC architecture were initially designed and used in Sun's workstations and servers.
+    * The most recent iterations of the processor are Fujitsu's "Venus" SPARC64 VIIIfx, used in the Japanese supercomputer "K computer", and the SPARC T5 introduced by Oracle in March 2013.

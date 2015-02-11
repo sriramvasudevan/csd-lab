@@ -1,0 +1,575 @@
+\documentclass[]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage[margin=0.8in]{geometry}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Sriram V (CS11B058)},
+            pdftitle={CS4110 -- Assignment 1},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+\title{CS4110 -- Assignment 1}
+\author{Sriram V (CS11B058)}
+\date{August 17, 2014}
+
+\begin{document}
+\maketitle
+
+\subsection{Answer 1}\label{answer-1}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  DVDs rely on a red laser to read and write data, whereas Blu-Ray uses
+  a blue-violet laser instead. The benefit of using a blue-violet laser
+  (405nm) is that it has a shorter wavelength than a red laser (650nm),
+  which makes it possible to focus the laser spot with even greater
+  precision.\\This allows data to be packed more tightly and stored in
+  less space, thus making it possible to fit more data on the disc even
+  though it is the size of a DVD. This together with the change of
+  numerical aperture to 0.85 is what enables Blu-ray discs to hold
+  25GB/50GB.
+\item
+  The Blu-ray disc overcomes DVD-reading issues by placing the data on
+  top of a 1.1-mm-thick polycarbonate layer. Having the data on top
+  prevents birefringence and therefore prevents readability problems.
+\item
+  Since the recording layer sits closer to the objective lens of the
+  reading mechanism, the problem of disc tilt is virtually eliminated.
+\end{itemize}
+
+\subsection{Answer 2}\label{answer-2}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Bitcoin is a software-based online payment system described by Satoshi
+  Nakamoto in 2008 and introduced as open-source software in 2009.
+  Payments are recorded in a public ledger using its own unit of
+  account, which is also called bitcoin.
+\item
+  As payments work peer-to-peer without a central repository or single
+  administrator, it is a decentralized virtual currency.
+\item
+  Although its status as a currency is disputed, it is commonly called a
+  cryptocurrency.
+\item
+  Bitcoins are mined by using computing power to verify and record
+  payments into the public ledger, the block chain.
+\item
+  Transactions are verified by digital signatures and hence cannot be
+  counterfeited, but the public ledger can be used to link transactions
+  to individuals and companies.
+\item
+  A valid payment message from an address must contain the associated
+  public key and a digital signature proving possession of the
+  associated private key. Because anyone with a private key can spend
+  all of the bitcoins associated with the corresponding address,
+  protection of private keys is quite important.
+\end{itemize}
+
+\subsection{Answer 3}\label{answer-3}
+
+The various virtualization options in the Linux kernel and userspace
+include:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \textbf{Hardware-assisted virtualization:} Also known as accelerated
+  virtualization, this approach enables efficient full virtualization
+  using hardware capabilities, mainly from the host processors. The
+  unmodified gues OS executes in complete isolation in the simulated
+  hardware environment.
+\item
+  \textbf{Paravirtualization:} It presents a software interface, or
+  hooks to allow the guest OS to request and acknowledge tasks, which
+  would otherwise be executed virtually, leading to bad performance.
+  This requires the guest OS to be explicitly ported for the para-API.
+\item
+  \textbf{Coopvirt (Cooperative Virtualization:} This is a hybrid of the
+  above two methods, that takes advantage of technologies like Intel
+  VT-x or AMD-V, as well as requiring the guest OS to interact only by
+  means of the para-API.
+\item
+  \textbf{LXC (LinuX Containers):} It is an operating system--level
+  virtualization method for running multiple isolated Linux systems
+  (containers) on a single control host. LXC combines cgroups and
+  namespace support to provide an isolated environment for applications.
+\end{itemize}
+
+\subsection{Answer 4}\label{answer-4}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  USB 3.0 is 10 times faster than USB 2.0. It is often referred to as
+  Super Speed or SS, with a transfer speed of 4.8Gbps as compared to the
+  High Speed (HS) USB 2.0's speeds of 480Mbps.
+\item
+  The signalling method is also asychronous in USB 3.0 ie., it can send
+  and receive data simultaneously (full duplex) as opposed to USB 2.0's
+  half duplex polling mechanism.
+\item
+  USB 3.0 is also more power efficient, has 9 wires (2.0 has 4) within
+  the cable and has blue Standard-A connectors (USB 2.0 has grey
+  connectors). It is backwards compatible with USB 2.0
+\item
+  USB 3.1 offers higher speeds of 10 Gbps (SuperSpeed+), putting it on
+  par with Thunderbolt Gen 1. It too is backward compatible with USB 3.0
+  and 2.0.
+\item
+  Further, it allows devices with large energy demands request higher
+  currents and supply voltages from compliant hosts.
+\item
+  The encoding used in 3.1 is 128b132b which is more bandwidth efficient
+  compared to USB 3.0's 8b10b scheme.
+\end{itemize}
+
+\subsection{Answer 5}\label{answer-5}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Near field communication (NFC) is a set of standards for smart devices
+  to establish radio communication with each other by bringing them into
+  proximity (a few cm). They are based on exising RFID standards (uses
+  the 13.56 MHz band). NFC uses magnetic induction between two loop
+  antennas.
+\item
+  NFC applications can be split into four basic categories:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Touch and Go: Transport ticketing, data capture applications
+    (picking up a URL from a smart label on a poster).
+  \item
+    Touch and Confirm: Mobile payments, instead of confirming
+    interactions by passwords or card-swiping)
+  \item
+    Touch and Connect: Linking two NFC devices to enable P2P transfer of
+    data. For applications that require greater bandwidth such as games,
+    this generally works by piggy-backing on a technology with greater
+    bandwidth, such as bluetooth.
+  \item
+    Touch and Explore: NFC devices may offer multiple functions. Users
+    can explore a device's capabilities to find out which services are
+    offered.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Answer 6}\label{answer-6}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The Oculus Rift is a virtual reality head-mounted display, that is
+  currently being developed by Oculus VR, which was recently acquired by
+  Facebook. The Development Kit 2 was released in July 2014, and
+  features higher refresh rates, head positional tracking and the higher
+  resolution screen of the Note 3.
+\item
+  The Rift completely covers the eyes, thus shutting off the user from
+  the outside world.
+\item
+  It works by projecting slightly shifted and distored images (with an
+  FoV of 90-110 degrees) for each eye, and using a lens to adjust this
+  picture (using the pincushion effect), thereby producing the effect of
+  stereoscopic 3D.
+\item
+  Apart from this, it also uses internal and external tracking devices
+  to monitor the head position along six axes as well as track eyeball
+  movement, to create corresponding in-game movements within 30ms.
+\end{itemize}
+
+\subsection{Answer 7}\label{answer-7}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Thunderbolt is a technology similar to USB in that it allows
+  connecting external peripherals to a computer. However, it combines
+  PCIe and DisplayPort into one serial signal, together with a DC
+  connection. The technology was co-developed by Apple and Intel, with
+  an architecture different from that of the USB.
+\item
+  The first-generation Thunderbolt gave speeds of up to 10 Gbps,
+  comparable to USB 3.1. Thunderbolt 2, that debuted in the 2013 Macbook
+  Pro doubles this transfer rate by making use of channel aggregation.
+\item
+  Thus performance-wise Thunderbolt is much, much better than USB.
+  However, it is currently not as widely available as USB ports. Also,
+  the USB is practically free since it comes baked into chipsets from
+  both AMD and Intel. Thunderbolt however, is very expensive.
+\item
+  An important issue to be noted is that Thunderbolt makes systems
+  vulnerable to DMA attacks as it extends the PCIe bus, thereby
+  providing low-level access.
+\end{itemize}
+
+\subsection{Answer 8}\label{answer-8}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \texttt{systemd} is a system management daemon designed for Linux and
+  programmed exclusively for the Linux API. It is the first process to
+  execute in user space during startup, hence serving as the root of the
+  user space's process tree.
+\item
+  It is a replacement for the old script-based SysVInit (or
+  \texttt{init}), and has a very different design that integrates a lot
+  of modules to allow for faster boot times.
+\item
+  It makes use of a lot of parallelization, starting some daemons
+  simultaneously.
+\item
+  \texttt{systemd} supports DBus and sockets, so it can be easily
+  controlled. Syntax is simpler too.
+\item
+  As it is an init binary, it is more aware about processes and is thus
+  better at logging than say, \texttt{syslog}.
+\item
+  People are unhappy with \texttt{systemd} for various reasons
+  including:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Attitude of the key devs towards users and bug reports.
+  \item
+    The fact that core technologies like GNOME are becoming dependent on
+    it and that it also integrates other software such as \texttt{dbus}
+    and \texttt{udev}, thus reducing choice of other init daemons.
+  \item
+    Not POSIX compliant. BSD users aren't happy.
+  \item
+    Everything is in one package, which is against the UNIX philosophy
+    of \emph{``do one task, and do it well.''}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Answer 9}\label{answer-9}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Multiprotocol Label Switching (MPLS) is a mechanism in
+  high-performance networks that directs data from one node to the next
+  based on short path labels rather than long network addresses,
+  avoiding complex lookups in a routing table. The labels identify
+  virtual links (paths) between distant nodes rather than endpoints.
+  MPLS can encapsulate packets of various network protocols.
+\item
+  Service providers are switching their core networks to MPLS because it
+  provides:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Improved up-time
+  \item
+    Improved bandwidth utilization
+  \item
+    Reduced network congestion
+  \item
+    Quality of Service (QoS): Higher standards such as reliability,
+    speed, and voice quality.
+  \item
+    Ability to assign priorities to packets based on labels
+  \end{itemize}
+\end{itemize}
+
+\subsection{Answer 10}\label{answer-10}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Wireless charging essentially works on the principle of
+  electromagnetic induction, making use of an electromagnetic field to
+  transfer energy via an inductive coupling to an electrical device,
+  which then uses this energy to charge batteries and/or run the device.
+\item
+  Induction chargers typically use an induction coil to create an
+  alternating electromagnetic field from within a charging base station,
+  and a second induction coil in the portable device takes power from
+  the electromagnetic field and converts it back into electrical current
+  to charge the battery. The two induction coils in proximity combine to
+  form an electrical transformer.
+\item
+  Advantages include protected connections and durability (which are
+  especially of great use for implanted devices, in the medical field),
+  while prime disadvantages are lower efficieny, heat generation, and
+  slower charging. It is also more expensive than conventional charging
+  methods.
+\end{itemize}
+
+\subsection{Answer 11}\label{answer-11}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Li-Fi is a wireless optical networking technology that uses
+  light-emitting diodes (LEDs) for data transmission.
+\item
+  LiFi is designed to use LED light bulbs similar to those currently in
+  use in many energy-conscious homes and offices. However, LiFi bulbs
+  are outfitted with a chip that modulates the light imperceptibly for
+  optical data transmission. LiFi data is transmitted by the LED bulbs
+  and received by photoreceptors.
+\item
+  Some commercial kits providing speeds of 150 Mbps are available,
+  although researchers have enabled 10 Gbps speeds with stronger LEDs
+  and modified technology.
+\item
+  Benefits of LiFi:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Higher speeds than Wi-Fi.
+  \item
+    10000 times the frequency spectrum of radio.
+  \item
+    More secure because data cannot be intercepted without a clear line
+    of sight.
+  \item
+    Prevents piggybacking.
+  \item
+    Eliminates neighboring network interference.
+  \item
+    Unimpeded by radio interference.
+  \item
+    Does not create interference in sensitive electronics, making it
+    better for use in environments like hospitals and aircraft.
+  \end{itemize}
+\item
+  Drawbacks include the need for a clear line of sight, difficulties
+  with mobility and the requirement that lights stay on for operation.
+\end{itemize}
+
+\subsection{Answer 12}\label{answer-12}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The X Window System, or X11, is a network-transparent windowing system
+  for bitmap displays. It acts as the interface between inputs and
+  outputs.
+\item
+  X11 makes use of a client-server model. The server (on the host)
+  communicates with the client programs via TCP port 6000. Thus, it is
+  not necessary for the client programs to be running on the host
+  machine. One of the fundamental design principles of X is to
+  \emph{``not serve all the world's needs; rather make the system
+  extensible.''}
+\item
+  From a developer's perspective, Wayland provides a smaller codebase
+  that follows a good programming model and has a better API than the X
+  server, which has become bloated by wrapping it in more and more
+  extensions and plugins.
+\item
+  The X server also has tearing issues due to no media coherence, which
+  is taken care of by a separate compositor. Wayland merges the server
+  with the compositor.
+\item
+  Wayland also delegates all rendering responsibilities to the clients.
+\end{itemize}
+
+\subsection{Answer 13}\label{answer-13}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  D-Bus is a free, open source inter-process communication (IPC) system,
+  allowing multiple, concurrently running processes to communicate with
+  each other. It provides commmunication between:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    desktop apps in the same desktop session
+  \item
+    desktop session and the OS, including the kernel and any system
+    daemons or processes
+  \end{itemize}
+\item
+  D-Bus also makes use of a bus topology thereby allowing more than one
+  process to receive a message. It is thus something similar to Unix
+  sockets, but has low overhead due to a binary protocol.
+\item
+  It helps us in various ways, say when we receive a phone call, D-Bus
+  can send a message to the volume control to mute the audio that might
+  be playing from the speakers and notify us of the call.
+\end{itemize}
+
+\subsection{Answer 14}\label{answer-14}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Phase-change memory (PCM or PRAM) is a type of non-volatile
+  random-access memory. PRAMs exploit the unique behaviour of
+  chalcogenide glass, namely that its optical and electrical properties
+  can be modified by switching it between an amporphous and crystalline
+  state, thereby allowing the storage of information.
+\item
+  Advantages:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Fast switching time and inherent scalability: This offers much
+    higher performance in applications where writing quickly is
+    important.
+  \item
+    Single bits may be changed without requiring to erase an entire
+    block first.
+  \item
+    PRAMs degrade much more slowly than Flash, which degrades with each
+    burst of voltage across the cell.
+  \end{itemize}
+\item
+  Drawbacks:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    High programming current density is needed (\textgreater{}107 A/cm²,
+    compared to 105-106 A/cm² for a typical transistor or diode).
+  \item
+    The contact between the hot phase-change region and the adjacent
+    dielectric is another fundamental concern.
+  \item
+    The dielectric may begin to leak current at higher temperature, or
+    may lose adhesion when expanding at a different rate from the
+    phase-change material.
+  \item
+    The resistance of the amorphous state slowly increases according to
+    a power law, and could jeopardize standard two-state operation if
+    the threshold voltage increases beyond the design value.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Answer 15}\label{answer-15}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  x86:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    The x86 architecture is a variable instruction length, primarily
+    ``CISC'' design with emphasis on backward compatibility.
+  \item
+    Byte-addressing is enabled and words are stored in memory with
+    little-endian byte order. It is a 32-bit processor.
+  \item
+    The current x86 architecture has been influenced by designs from
+    both Intel and AMD.
+  \item
+    Examples include the Intel Pentium family, as well as the Atom
+    processors.
+  \end{itemize}
+\item
+  x86-64/AMD64/x64:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    It is the 64-bit version of x86. It has a CISC architecture as well.
+  \item
+    It supports vastly larger amounts of virtual memory and physical
+    memory than is possible on its predecessors, allowing programs to
+    store larger amounts of data in memory.
+  \item
+    x86-64 also provides 64-bit general purpose registers and numerous
+    other enhancements. The original specification was created by AMD,
+    and has been implemented by AMD, Intel, VIA, and others.
+  \item
+    It is fully backwards compatible with 16-bit and 32-bit x86 code.
+  \item
+    Examples are the Intel Core (i3/i5/i7) series and the AMD Athlon
+    family.
+  \end{itemize}
+\item
+  ARM:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    It is an instruction set architectures for processors based on RISC,
+    developed by ARM Holdings.
+  \item
+    Thus ARM processors require significantly fewer transistors than
+    typical x86 processors. Hence costs, heat and power use is reduced.
+  \item
+    Hence they are widely used in smartphones and tablets.
+  \item
+    A simpler design facilitates more efficient multi-core CPUs and
+    higher core counts at lower cost, providing improved energy
+    efficiency for servers.
+  \item
+    Popular ARM manufacturers include Qualcomm (the Snapdragon family of
+    systems on a chip) and Apple (The A series). Apple was also the
+    first company to release a 64-bit ARM chip on a consumer smartphone
+    or tablet (the A7).
+  \end{itemize}
+\item
+  SPARC:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    SPARC (from ``scalable processor architecture'') is a RISC
+    instruction set architecture (ISA) developed by Sun Microsystems and
+    introduced in mid-1987.
+  \item
+    Implementations of the original 32-bit SPARC architecture were
+    initially designed and used in Sun's workstations and servers.
+  \item
+    The most recent iterations of the processor are Fujitsu's ``Venus''
+    SPARC64 VIIIfx, used in the Japanese supercomputer ``K computer'',
+    and the SPARC T5 introduced by Oracle in March 2013.
+  \end{itemize}
+\end{itemize}
+
+\end{document}
